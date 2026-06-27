@@ -1,0 +1,31 @@
+# Drone FC v3 — LCSC parts for easyeda2kicad import
+# One LCSC ID per line. Lines starting with # and blank lines are ignored.
+# Passives (R/C/LED/diodes/headers) use KiCad stock symbols — not listed here.
+
+# MCU — STM32F405RGT6TR (LQFP-64)
+C15742
+
+# IMU — default populate = ICM-42605
+C2655099
+# IMU — ICM-42688-P, drop-in alternate (same LGA-14 footprint)
+C1850418
+
+# Blackbox flash — W25Q128JVSIQ (SOIC-8, 16MB)
+C97521
+
+# Main 3.3V LDO — AP2112K-3.3 (SOT-23-5)
+C51118
+# IMU rail LDO — TLV733P-3.3 (SOT-23-5)
+C134139
+
+# USB-C receptacle — TYPE-C-31-M-12
+C2765186
+# JST SH1.0 10-pin SM10B-SRSS-TB (ESC)
+C160409
+
+# USBLC6-2SC6 — USB ESD (optional)
+C7519
+# Buzzer — SUN-12095-5VPA7.6 (DNP / hand-solder, footprint only)
+C360615
+#Buck converter - TI TPS5430DDAR
+C9864

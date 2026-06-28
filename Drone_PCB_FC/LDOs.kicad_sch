@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "9f9501e2-67d5-451f-aeec-0fb48a7506c1")
+	(uuid "617a7d74-e20d-459f-8e7e-85a0cc8c7f89")
 	(paper "A4")
 	(lib_symbols
 		(symbol "Device:C"
@@ -2569,7 +2569,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "1uF"
 			(at 153.67 129.5399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2651,7 +2651,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "1uF"
 			(at 152.4 86.3599 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2811,7 +2811,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "C1uF"
 			(at 116.84 128.2699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2893,7 +2893,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "1uF"
 			(at 118.11 85.0899 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -360,52 +360,6 @@
 			)
 		)
 	)
-	(sheet
-		(at 105.41 33.02)
-		(size 57.15 33.02)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0)
-		)
-		(uuid "bfaa9526-c43d-4c7a-b6df-a1047cb7c9ec")
-		(property "Sheetname" "Untitled Sheet"
-			(at 105.41 32.3084 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "untitled.kicad_sch"
-			(at 105.41 66.6246 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(instances
-			(project "Drone_PCB_FC"
-				(path "/30482008-3d6c-427d-9917-9811da561e6b"
-					(page "9")
-				)
-			)
-		)
-	)
 	(sheet_instances
 		(path "/"
 			(page "1")

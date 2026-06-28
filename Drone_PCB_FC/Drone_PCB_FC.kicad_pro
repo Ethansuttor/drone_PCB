@@ -680,7 +680,7 @@
         "uuid": "30482008-3d6c-427d-9917-9811da561e6b"
       }
     ],
-    "used_designators": "#PWR1-65,D1-4,L1-2,C1-28,R1-12,U1-2,U4-7,CN1,USBC1,J1-3,FB1,SW1-3,Y1",
+    "used_designators": "#PWR1-77,D1-4,L1-2,C1-28,R1-12,U1-2,U4-7,CN1,USBC1,J1-3,FB1,SW1-3,Y1",
     "variants": []
   },
   "sheets": [
@@ -715,10 +715,6 @@
     [
       "44bc8794-e23f-4ddb-b51a-6f0d375585e0",
       "Buttons"
-    ],
-    [
-      "bfaa9526-c43d-4c7a-b6df-a1047cb7c9ec",
-      "Untitled Sheet"
     ]
   ],
   "text_variables": {},

@@ -1,0 +1,254 @@
+ERC report (2026-07-02T11:36:40, Encoding UTF8)
+Report includes: Errors, Warnings, Exclusions
+
+***** Sheet /
+
+***** Sheet /Buck Converter/
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(87.63 mm, 92.71 mm): Symbol #PWR03 Pin 1 [Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(212.09 mm, 87.63 mm): Symbol #PWR022 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Power input are connected
+    ; warning
+    @(113.03 mm, 85.09 mm): Symbol U5 Pin 9 [PowerPAD, Unspecified, Line]
+    @(105.41 mm, 106.68 mm): Symbol #PWR018 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Passive are connected
+    ; warning
+    @(113.03 mm, 90.17 mm): Symbol U5 Pin 8 [PH, Unspecified, Line]
+    @(156.21 mm, 87.63 mm): Symbol C7 Pin 2 [Passive, Line]
+[pin_to_pin]: Pins of type Unspecified and Passive are connected
+    ; warning
+    @(113.03 mm, 92.71 mm): Symbol U5 Pin 7 [VIN, Unspecified, Line]
+    @(92.71 mm, 92.71 mm): Symbol C5 Pin 1 [Passive, Line]
+[pin_to_pin]: Pins of type Unspecified and Unspecified are connected
+    ; warning
+    @(113.03 mm, 95.25 mm): Symbol U5 Pin 6 [GND, Unspecified, Line]
+    @(113.03 mm, 85.09 mm): Symbol U5 Pin 9 [PowerPAD, Unspecified, Line]
+[pin_to_pin]: Pins of type Unspecified and Passive are connected
+    ; warning
+    @(143.51 mm, 87.63 mm): Symbol U5 Pin 1 [BOOT, Unspecified, Line]
+    @(148.59 mm, 87.63 mm): Symbol C7 Pin 1 [Passive, Line]
+[pin_to_pin]: Pins of type Unspecified and Passive are connected
+    ; warning
+    @(143.51 mm, 95.25 mm): Symbol U5 Pin 4 [VSENSE, Unspecified, Line]
+    @(203.20 mm, 106.68 mm): Symbol R7 Pin 2 [Passive, Line]
+
+***** Sheet /MCU/
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 77.47 mm): Symbol U4 Pin 54 [PD2, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 82.55 mm): Symbol U4 Pin 8 [PC0, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 87.63 mm): Symbol U4 Pin 10 [PC2, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 95.25 mm): Symbol U4 Pin 25 [PC5, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 97.79 mm): Symbol U4 Pin 37 [PC6, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 100.33 mm): Symbol U4 Pin 38 [PC7, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 102.87 mm): Symbol U4 Pin 39 [PC8, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 105.41 mm): Symbol U4 Pin 40 [PC9, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 107.95 mm): Symbol U4 Pin 51 [PC10, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 110.49 mm): Symbol U4 Pin 52 [PC11, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 113.03 mm): Symbol U4 Pin 53 [PC12, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 115.57 mm): Symbol U4 Pin 2 [PC13, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 118.11 mm): Symbol U4 Pin 3 [PC14, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(119.38 mm, 120.65 mm): Symbol U4 Pin 4 [PC15, Bidirectional, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(147.32 mm, 52.07 mm): Symbol U4 Pin 13 [VDDA, Power input, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 59.69 mm): Symbol U4 Pin 14 [PA0, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 62.23 mm): Symbol U4 Pin 15 [PA1, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 64.77 mm): Symbol U4 Pin 16 [PA2, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 67.31 mm): Symbol U4 Pin 17 [PA3, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 69.85 mm): Symbol U4 Pin 20 [PA4, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 80.01 mm): Symbol U4 Pin 41 [PA8, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 92.71 mm): Symbol U4 Pin 46 [PA13, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 95.25 mm): Symbol U4 Pin 49 [PA14, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 97.79 mm): Symbol U4 Pin 50 [PA15, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 110.49 mm): Symbol U4 Pin 55 [PB3, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 113.03 mm): Symbol U4 Pin 56 [PB4, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 120.65 mm): Symbol U4 Pin 59 [PB7, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 123.19 mm): Symbol U4 Pin 61 [PB8, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 125.73 mm): Symbol U4 Pin 62 [PB9, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 128.27 mm): Symbol U4 Pin 29 [PB10, Bidirectional, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(160.02 mm, 130.81 mm): Symbol U4 Pin 30 [PB11, Bidirectional, Line]
+
+***** Sheet /Blackbox Flash/
+
+***** Sheet /IMU/
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(102.87 mm, 104.14 mm): Symbol U6 Pin 1 [AP_SDO/AP_AD0, Unspecified, Line]
+    @(160.02 mm, 74.93 mm): Symbol U4 Pin 22 [PA6, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Unspecified are connected
+    ; warning
+    @(102.87 mm, 106.68 mm): Symbol U6 Pin 2 [RESV, Unspecified, Line]
+    @(102.87 mm, 109.22 mm): Symbol U6 Pin 3 [RESV, Unspecified, Line]
+[pin_to_pin]: Pins of type Unspecified and Unspecified are connected
+    ; warning
+    @(102.87 mm, 109.22 mm): Symbol U6 Pin 3 [RESV, Unspecified, Line]
+    @(102.87 mm, 116.84 mm): Symbol U6 Pin 6 [GND, Unspecified, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(102.87 mm, 111.76 mm): Symbol U6 Pin 4 [INT1/INT, Unspecified, Line]
+    @(119.38 mm, 90.17 mm): Symbol U4 Pin 11 [PC3, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Passive are connected
+    ; warning
+    @(102.87 mm, 114.30 mm): Symbol U6 Pin 5 [VDDIO, Unspecified, Line]
+    @(81.28 mm, 119.38 mm): Symbol C9 Pin 1 [Passive, Line]
+[pin_to_pin]: Pins of type Unspecified and Unspecified are connected
+    ; warning
+    @(102.87 mm, 116.84 mm): Symbol U6 Pin 6 [GND, Unspecified, Line]
+    @(102.87 mm, 119.38 mm): Symbol U6 Pin 7 [RESV, Unspecified, Line]
+[pin_to_pin]: Pins of type Unspecified and Power input are connected
+    ; warning
+    @(102.87 mm, 119.38 mm): Symbol U6 Pin 7 [RESV, Unspecified, Line]
+    @(101.60 mm, 124.46 mm): Symbol #PWR071 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(163.83 mm, 104.14 mm): Symbol U6 Pin 14 [AP_SDA/AP_SDIO/AP_SDI, Unspecified, Line]
+    @(160.02 mm, 77.47 mm): Symbol U4 Pin 23 [PA7, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(163.83 mm, 106.68 mm): Symbol U6 Pin 13 [AP_SCL/AP_SCLK, Unspecified, Line]
+    @(160.02 mm, 72.39 mm): Symbol U4 Pin 21 [PA5, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Passive are connected
+    ; warning
+    @(163.83 mm, 109.22 mm): Symbol U6 Pin 12 [AP_CS, Unspecified, Line]
+    @(187.96 mm, 107.95 mm): Symbol R3 Pin 2 [Passive, Line]
+[pin_to_pin]: Pins of type Unspecified and Power input are connected
+    ; warning
+    @(163.83 mm, 111.76 mm): Symbol U6 Pin 11 [RESV, Unspecified, Line]
+    @(170.18 mm, 114.30 mm): Symbol #PWR075 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Unspecified are connected
+    ; warning
+    @(163.83 mm, 114.30 mm): Symbol U6 Pin 10 [RESV, Unspecified, Line]
+    @(163.83 mm, 111.76 mm): Symbol U6 Pin 11 [RESV, Unspecified, Line]
+[pin_to_pin]: Pins of type Unspecified and Unspecified are connected
+    ; warning
+    @(163.83 mm, 116.84 mm): Symbol U6 Pin 9 [INT2/FSYNC, Unspecified, Line]
+    @(163.83 mm, 114.30 mm): Symbol U6 Pin 10 [RESV, Unspecified, Line]
+[pin_to_pin]: Pins of type Unspecified and Passive are connected
+    ; warning
+    @(163.83 mm, 119.38 mm): Symbol U6 Pin 8 [VDD, Unspecified, Line]
+    @(182.88 mm, 121.92 mm): Symbol C11 Pin 1 [Passive, Line]
+
+***** Sheet /IO/
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(142.24 mm, 78.74 mm): Symbol #PWR06 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(182.88 mm, 73.66 mm): Symbol CN1 Pin 9 [9, Unspecified, Line]
+    @(119.38 mm, 85.09 mm): Symbol U4 Pin 9 [PC1, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(182.88 mm, 76.20 mm): Symbol CN1 Pin 8 [8, Unspecified, Line]
+    @(160.02 mm, 102.87 mm): Symbol U4 Pin 26 [PB0, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(182.88 mm, 78.74 mm): Symbol CN1 Pin 7 [7, Unspecified, Line]
+    @(160.02 mm, 105.41 mm): Symbol U4 Pin 27 [PB1, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(182.88 mm, 81.28 mm): Symbol CN1 Pin 6 [6, Unspecified, Line]
+    @(160.02 mm, 118.11 mm): Symbol U4 Pin 58 [PB6, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Bidirectional are connected
+    ; warning
+    @(182.88 mm, 83.82 mm): Symbol CN1 Pin 5 [5, Unspecified, Line]
+    @(160.02 mm, 115.57 mm): Symbol U4 Pin 57 [PB5, Bidirectional, Line]
+[pin_to_pin]: Pins of type Unspecified and Power input are connected
+    ; warning
+    @(182.88 mm, 88.90 mm): Symbol CN1 Pin 3 [3, Unspecified, Line]
+    @(179.07 mm, 88.90 mm): Symbol #PWR04 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Power input are connected
+    ; warning
+    @(182.88 mm, 91.44 mm): Symbol CN1 Pin 2 [2, Unspecified, Line]
+    @(171.45 mm, 93.98 mm): Symbol #PWR028 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Unspecified are connected
+    ; warning
+    @(182.88 mm, 93.98 mm): Symbol CN1 Pin 1 [1, Unspecified, Line]
+    @(182.88 mm, 91.44 mm): Symbol CN1 Pin 2 [2, Unspecified, Line]
+[pin_to_pin]: Pins of type Unspecified and Power input are connected
+    ; warning
+    @(191.77 mm, 66.04 mm): Symbol CN1 Pin 11 [11, Unspecified, Line]
+    @(191.77 mm, 66.04 mm): Symbol #PWR07 Pin 1 [Power input, Line]
+[pin_to_pin]: Pins of type Unspecified and Power input are connected
+    ; warning
+    @(191.77 mm, 99.06 mm): Symbol CN1 Pin 12 [12, Unspecified, Line]
+    @(199.39 mm, 101.60 mm): Symbol #PWR010 Pin 1 [Power input, Line]
+
+***** Sheet /LDOs/
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(127.00 mm, 77.47 mm): Symbol IMU-U2 Pin 1 [IN, Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(134.62 mm, 87.63 mm): Symbol IMU-U2 Pin 2 [GND, Power input, Line]
+
+***** Sheet /Buttons/
+
+ ** ERC messages: 66  Errors 36  Warnings 30
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters

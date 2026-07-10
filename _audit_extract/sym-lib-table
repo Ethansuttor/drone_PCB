@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "drone_lib") (type "KiCad") (uri "D:/Drone/drone_PCB/libs/drone_lib.kicad_sym") (options "") (descr ""))
+)

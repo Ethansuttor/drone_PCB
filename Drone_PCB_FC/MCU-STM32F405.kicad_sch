@@ -3097,6 +3097,114 @@
 		(color 0 0 0 0)
 		(uuid "fee2cc4f-7b69-4dec-8517-326bdb50099d")
 	)
+	(no_connect
+		(at 160.02 97.79)
+		(uuid "05ab4bd8-3f3b-4c39-a962-bcc9dda18d02")
+	)
+	(no_connect
+		(at 160.02 64.77)
+		(uuid "0b1c63bd-b946-42f3-95a8-f2005225c6b1")
+	)
+	(no_connect
+		(at 119.38 77.47)
+		(uuid "132350ec-0bfe-4168-a182-ba73accee60b")
+	)
+	(no_connect
+		(at 119.38 107.95)
+		(uuid "1eb81a4a-6c9c-426e-8197-8ad0850132bc")
+	)
+	(no_connect
+		(at 119.38 82.55)
+		(uuid "225dd9f4-59ac-4ef2-844a-9f8fe4225e30")
+	)
+	(no_connect
+		(at 119.38 97.79)
+		(uuid "2d7bdca3-e8e5-40d5-9b4b-f8d83601efe2")
+	)
+	(no_connect
+		(at 119.38 100.33)
+		(uuid "2d85eef7-d9d9-4425-b92c-8dc83b795130")
+	)
+	(no_connect
+		(at 119.38 95.25)
+		(uuid "509b5cd5-b6b4-40bf-b04c-ad50c96792f9")
+	)
+	(no_connect
+		(at 119.38 118.11)
+		(uuid "5f153126-2a22-40e8-a810-f995faec4c8f")
+	)
+	(no_connect
+		(at 160.02 80.01)
+		(uuid "603295d1-ec0c-4883-af38-618a05ec4eb6")
+	)
+	(no_connect
+		(at 160.02 125.73)
+		(uuid "68dbd5d3-3c72-4498-a1ea-17bbd0b75695")
+	)
+	(no_connect
+		(at 160.02 128.27)
+		(uuid "6a8bdaf8-02b1-46c7-868b-05b2caa434a9")
+	)
+	(no_connect
+		(at 119.38 102.87)
+		(uuid "78fe3c27-cd20-4763-a3e6-c9b784fb5fd0")
+	)
+	(no_connect
+		(at 119.38 105.41)
+		(uuid "7c07f0c3-b0ca-46d1-9325-892ee32acecf")
+	)
+	(no_connect
+		(at 160.02 59.69)
+		(uuid "7ef0a3a7-92b0-42a0-a19b-bed57d9a18c1")
+	)
+	(no_connect
+		(at 160.02 123.19)
+		(uuid "842ff945-a4e3-467a-bfee-7a4d2d0f18e5")
+	)
+	(no_connect
+		(at 160.02 120.65)
+		(uuid "90c97775-09f6-4b55-b800-14dc11dc1af7")
+	)
+	(no_connect
+		(at 160.02 67.31)
+		(uuid "917f05dd-e72d-4641-852f-c816eb6dcad4")
+	)
+	(no_connect
+		(at 119.38 115.57)
+		(uuid "97dd2d3f-25e8-40b3-94a3-04876b2caa84")
+	)
+	(no_connect
+		(at 119.38 113.03)
+		(uuid "99dfb3ba-7063-4399-899e-c14c01acb5a1")
+	)
+	(no_connect
+		(at 119.38 110.49)
+		(uuid "a0598b06-88b3-473f-9766-55cd1c280754")
+	)
+	(no_connect
+		(at 160.02 69.85)
+		(uuid "a1a74877-05c3-41bb-a531-84a483a3eb95")
+	)
+	(no_connect
+		(at 119.38 120.65)
+		(uuid "a864da08-dd67-4f08-acbb-a374c89a947d")
+	)
+	(no_connect
+		(at 160.02 62.23)
+		(uuid "b68f79dc-581a-45e1-b08e-d9ea8bfb753c")
+	)
+	(no_connect
+		(at 160.02 113.03)
+		(uuid "caf6f8a4-ef10-44e5-b3be-5a770afe298b")
+	)
+	(no_connect
+		(at 160.02 130.81)
+		(uuid "e81ae114-c692-4644-93af-cf058660fd1a")
+	)
+	(no_connect
+		(at 160.02 110.49)
+		(uuid "fb707b7c-748b-4b06-b192-358c21956deb")
+	)
 	(wire
 		(pts
 			(xy 60.96 72.39) (xy 119.38 72.39)
@@ -4151,6 +4259,30 @@
 			)
 		)
 	)
+	(global_label "SWDCLK"
+		(shape input)
+		(at 160.02 95.25 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "84d52e6d-7447-44fb-86ba-1127cdd33a7b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 170.5042 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "Current_meter"
 		(shape input)
 		(at 81.28 76.2 180)
@@ -4284,6 +4416,30 @@
 		(uuid "baf70a65-9a60-49f1-a3df-8047de1cdb01")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 176.2494 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "SWDIO"
+		(shape input)
+		(at 160.02 92.71 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d254b422-3590-4ad7-9064-09b62f3d631c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 168.8714 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4581,7 +4737,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 79.502 104.14 90)
 			(hide yes)
 			(show_name no)
@@ -4663,7 +4819,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 100.0252 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -4742,7 +4898,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 87.63 77.978 90)
 			(hide yes)
 			(show_name no)
@@ -5171,7 +5327,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 61.9252 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -5253,7 +5409,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_SMD:L_0805_2012Metric"
 			(at 163.322 29.21 90)
 			(hide yes)
 			(show_name no)
@@ -5333,7 +5489,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm"
 			(at 49.53 74.93 0)
 			(hide yes)
 			(show_name no)
@@ -5443,7 +5599,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 70.8152 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -5525,7 +5681,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 172.4152 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -5997,7 +6153,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 125.4252 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -6077,7 +6233,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 73.66 94.742 90)
 			(hide yes)
 			(show_name no)
@@ -6159,7 +6315,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 73.3552 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -6321,7 +6477,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 37.7952 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -6560,7 +6716,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 112.7252 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -6642,7 +6798,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Diode_SMD:D_SOD-123"
 			(at 92.71 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -6724,7 +6880,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 159.7152 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -6806,7 +6962,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 87.3252 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -6888,7 +7044,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 100.0252 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -6970,7 +7126,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 112.7252 45.72 0)
 			(hide yes)
 			(show_name no)

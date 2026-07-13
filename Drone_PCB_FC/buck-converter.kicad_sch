@@ -2212,7 +2212,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "drone_lib:IND-SMD_L6.0-W6.0"
 			(at 176.53 87.63 0)
 			(hide yes)
 			(show_name no)
@@ -2294,7 +2294,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 93.6752 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -2532,7 +2532,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 201.422 119.38 90)
 			(hide yes)
 			(show_name no)
@@ -3008,7 +3008,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 156.21 86.6648 0)
 			(hide yes)
 			(show_name no)
@@ -3246,7 +3246,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:Panasonic_EVQPUJ_EVQPUA"
 			(at 201.422 102.87 90)
 			(hide yes)
 			(show_name no)
@@ -3328,7 +3328,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_Tantalum_SMD:CP_EIA-7343-31_Kemet-D"
 			(at 185.1152 104.14 0)
 			(hide yes)
 			(show_name no)

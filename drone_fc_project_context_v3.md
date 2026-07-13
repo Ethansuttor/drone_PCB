@@ -2,6 +2,23 @@
 
 **Date:** 2026-06-09. Supersedes v1 (`drone_fc_project_context.md`) and the lost v2. Incorporates the June 2026 audit (`FC_audit_2026-06-09.md`). Build is a **bench/resume project: no VTX, camera, or OSD**.
 
+**Update 2026-07-11 (SCHEMATIC COMPLETE — verified, entering layout):**
+Full netlist re-verified pin-by-pin against the KiCad files (not the docs) this session. Status: **schematic done, ERC-clean pending, ready for layout.** Resolutions since 2026-06-28:
+- **IMU rail swap DONE** — as-drawn is now correct: VDDIO (pin 5) → +3V3 (main), VDD (pin 8) → +3V3_IMU (quiet). All 14 ICM-42605 pins verified: MISO/MOSI/SCLK/CS on 1/14/13/12, INT1 (4) → PC3/EXTI3, RESV pin 7 + RESV 2/3/10/11 + INT2/FSYNC (9) → GND, CS 10k pull-up → +3V3. Decoupling: VDD 2.2µF+0.1µF, VDDIO 10nF.
+- **Current-sense protection ADDED** — CN1 current pin → R5 1k series → PC1, D1 3.3V zener PC1→GND. Correct clamp (PC1 taps between R5 and zener). **Note: current sense is on PC1** (not PC2 as older pin table said).
+- **VBAT divider ADDED** — +BATT → R6 100k → PC2, R13 10k + C29 100nF → GND. Ratio 0.091 (16.8 V → 1.53 V at PC2). Battery telemetry now available; calibrate vbat_scale at bring-up.
+- **SWD header ADDED (J1, 5-pin)** — 3V3 / SWDIO=PA13 / SWDCLK=PA14 / GND / NRST. For emergency flash/debug if USB DFU fails.
+- **Power LED ADDED** — +3V3 → R14 series resistor → D5 → GND. (Earlier IMU-rail LED D6 removed — do not load the quiet gyro rail.)
+- **Buck confirmed complete** — TPS5430, L 15µH, Cin 10µF, Cout 220µF polymer, SS34 catch diode, 10nF BOOT cap, FB 10k/3.24k tied to +5V_Buck output. ENA left floating (TPS5430 enables when floating).
+- **ORing diodes D3/D4 verified correct** (anodes at +5V_Buck / +5V_USB sources, cathodes at common +5V).
+- **Motor pins confirmed in KiCad**: M1=PB0, M2=PB1, M3=PB6 (TIM4_CH1), M4=PB5 (TIM3_CH2). PA2/PA3/PB7 free.
+
+**⚠ REMAINING BEFORE FAB (physical/process, not schematic):**
+1. **ESC connector orientation** — CN1 is numbered reverse vs the manufacturer diagram (VBAT on pad 3, GND pads 1–2, current pad 9). Signal order matches the harness only if the connector mates reversed. **Mandatory: continuity-beep VBAT + both GND pads to the ESC XT60 before first power-up** — a mirror error puts 16.8 V on a 3.3 V GPIO.
+2. Run **ERC** to zero before layout (authoritative check for unconnected nets).
+3. Buzzer (PC5) and Betaflight status LED (PB8) intentionally not populated — spare UART/I2C pads (PB10/11, PC6/7) not broken out. All optional; add if wanted.
+4. **File-sync corruption risk** — keep the project OFF the synced drive or pause sync while editing; a truncated `.kicad_sch` right before Gerber export is the worst-case. Confirm clean saves.
+
 **Update 2026-06-28 (battery → 4S, motor remap, open items):**
 - **Battery changed to 4S (14.8 V nominal / 16.8 V full charge)** — was 6S. Consequences: buck output inductor is now **15 µH** (TPS5430 datasheet value for this Vin/Vout; L_min ≈ 12 µH) — **the locked BOM 22 µH part C354622 is superseded; order a 15 µH ≥3 A shielded inductor instead.** Battery-rail/buck-input cap voltage rating requirement relaxes from ≥50 V (6S) to **≥25 V (use ≥35 V for transient margin)**. Any VBAT sense divider scales for 16.8 V.
 - **Motor remap (done in schematic):** M4 moved **PB7 → PB5 (TIM3_CH2)** to clear the DMA1-Stream3 clash with SPI2_RX (blackbox). Motors are now M1=PB0/TIM3_CH3, M2=PB1/TIM3_CH4, M3=PB6/TIM4_CH1, M4=PB5/TIM3_CH2 → DMA1 streams S7/S2/S0/S5, all clear of SPI2 (S3/S4). PB7 freed. Verified against RM0090 Table 42.

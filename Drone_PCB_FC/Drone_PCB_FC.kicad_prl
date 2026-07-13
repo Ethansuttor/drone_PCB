@@ -1,10 +1,12 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 25,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
-    "hidden_nets": [],
+    "hidden_nets": [
+      "GND"
+    ],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
     "opacity": {
@@ -92,16 +94,16 @@
       9
     ],
     "col_widths": [
-      203,
-      184,
-      114,
-      84,
-      114,
-      114,
-      114,
-      89,
-      114,
-      114
+      254,
+      230,
+      143,
+      105,
+      143,
+      143,
+      143,
+      111,
+      143,
+      143
     ],
     "custom_group_rules": [],
     "expanded_rows": [],

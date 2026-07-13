@@ -1210,7 +1210,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:Panasonic_EVQPUJ_EVQPUA"
 			(at 92.71 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -1292,7 +1292,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 83.5152 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -1452,7 +1452,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 83.058 55.88 90)
 			(hide yes)
 			(show_name no)
@@ -1612,7 +1612,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 83.058 77.47 90)
 			(hide yes)
 			(show_name no)
@@ -1692,7 +1692,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:Panasonic_EVQPUJ_EVQPUA"
 			(at 99.06 88.9 0)
 			(hide yes)
 			(show_name no)

@@ -35,13 +35,12 @@ Currently a work in progress (WIP), this board is designed as a bench/resume pro
 - **Expansion:** Spare UART3, USART6, I2C1 pads for future GPS/Mag integration
 
 ## Current Status (Work in Progress)
-The project is actively in the schematic capture phase.
-- **Completed:** Power architecture (buck converter and dual LDOs), IMU wiring and isolation, and ESC interface mapping.
-- **In Progress:** Finishing up the logic connections from the MCU to the SPI NOR flash and finalizing the USB protocol circuitry.
+**Schematic complete (2026-07-11) — verified, entering PCB layout.**
+- **Completed:** Full schematic — power architecture (TPS5430 buck + dual LDOs), IMU wiring/isolation, MCU core (decoupling, VCAP, VDDA filter, crystal, boot/reset), SPI2 flash, USB-C + ESD, ESC interface, current-sense clamp, VBAT divider, SWD header, power LED. Netlist verified pin-by-pin against the KiCad files.
 - **Next Steps:**
-  - Complete the schematic.
-  - PCB layout and routing (focusing on solid L2 ground planes and analog/digital noise isolation).
-  - Final part sourcing and ordering bare boards + frameless stencils for hand-assembly.
+  - Run ERC to zero; confirm ESC connector orientation with a continuity-beep test before power-up.
+  - PCB layout and routing (solid L2 ground plane under IMU, tight buck switching loop away from analog/IMU, matched USB pair, decoupling at pins).
+  - Order bare 4-layer boards + frameless stencil (JLCPCB); staged self-assembly and bring-up.
 
 ## Build Instructions
 *(To be detailed upon board completion)*

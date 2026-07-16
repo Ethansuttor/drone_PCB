@@ -680,7 +680,7 @@
         "uuid": "30482008-3d6c-427d-9917-9811da561e6b"
       }
     ],
-    "used_designators": "",
+    "used_designators": "U3,U8,D6,#PWR45,#PWR60-61,#PWR80-85,C30,BZ1,R15-19",
     "variants": []
   },
   "sheets": [

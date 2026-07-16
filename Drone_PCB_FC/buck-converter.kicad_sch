@@ -3246,7 +3246,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Button_Switch_SMD:Panasonic_EVQPUJ_EVQPUA"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 201.422 102.87 90)
 			(hide yes)
 			(show_name no)

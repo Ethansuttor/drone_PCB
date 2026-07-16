@@ -1,11 +1,42 @@
 {
   "board": {
-    "active_layer": 25,
+    "active_layer": 2,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
     "hidden_nets": [
-      "GND"
+      "+BATT",
+      "GND",
+      "BOOT0",
+      "+3V3",
+      "+3V3_IMU",
+      "Net-(U4-VDDA)",
+      "Net-(U5-BOOT)",
+      "Net-(U5-VSENSE)",
+      "Net-(D2-K)",
+      "{slash}CS",
+      "SPI2_MISO",
+      "SPI2_MOSI",
+      "SPI2_SCK",
+      "Current_meter",
+      "Net-(D1-K)",
+      "+5V",
+      "+5V_Buck",
+      "Net-(J2-D--PadA7)",
+      "Net-(J2-D+-PadA6)",
+      "USB_D+",
+      "+5V_USB",
+      "USB_D-",
+      "BOOT1",
+      "Net-(J2-CC1)",
+      "Net-(J2-CC2)",
+      "NRST",
+      "Net-(D5-A)",
+      "SWDCLK",
+      "UARTx_RX",
+      "UARTx_TX",
+      "TIM3_CH4-M2",
+      "TIM3_CH3-M1"
     ],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
@@ -55,7 +86,7 @@
       "board_outline_area",
       "ly_points"
     ],
-    "visible_layers": "ffffffff_ffffffff_ffffffff_ffffffff",
+    "visible_layers": "ffffffff_ffffffff_ffffffff_fffffffd",
     "zone_display_mode": 0
   },
   "git": {
@@ -79,6 +110,8 @@
       false,
       false,
       false,
+      false,
+      false,
       false
     ],
     "col_order": [
@@ -91,19 +124,21 @@
       6,
       7,
       8,
-      9
+      9,
+      10,
+      11
     ],
     "col_widths": [
-      254,
-      230,
-      143,
-      105,
-      143,
-      143,
-      143,
-      111,
-      143,
-      143
+      186,
+      171,
+      112,
+      79,
+      112,
+      112,
+      112,
+      83,
+      112,
+      112
     ],
     "custom_group_rules": [],
     "expanded_rows": [],

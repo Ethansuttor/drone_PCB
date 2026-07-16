@@ -3006,7 +3006,7 @@
 			)
 		)
 	)
-	(global_label "TIM3_CH2-M4"
+	(global_label "TIM2_CH3-M4"
 		(shape input)
 		(at 182.88 83.82 180)
 		(fields_autoplaced yes)
@@ -3102,7 +3102,7 @@
 			)
 		)
 	)
-	(global_label "TIM4_CH1-M3"
+	(global_label "TIM2_CH4-M3"
 		(shape input)
 		(at 182.88 81.28 180)
 		(fields_autoplaced yes)

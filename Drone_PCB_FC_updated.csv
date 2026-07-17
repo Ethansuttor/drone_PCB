@@ -1,0 +1,38 @@
+Reference,Qty,Value,DNP,Exclude from BOM,Exclude from Board,Footprint,LCSC,Notes,Datasheet
+BZ1,1,Buzzer,,,,Buzzer_Beeper:Buzzer_12x9.5RM7.6,C360615,"SUN-12095-5VPA7.6. Marked DNP/hand-solder in project docs — set DNP if not populating.",
+"C1,C2,C3,C4,C19",5,1uF,,,,Capacitor_SMD:C_0805_2012Metric,,"Jellybean 0805. Pick 1uF 25V+ X7R (JLC auto-match).",
+C5,1,10uF,,,,Capacitor_SMD:C_1210_3225Metric,C77102,"Buck input cap = GRM32ER71H106KA12L (10uF 50V X7R 1210). NOTE: design calls for 2x10uF Cin; this BOM only has one — verify.",
+C8,1,220uF,,,,Capacitor_Tantalum_SMD:CP_EIA-7343-31_Kemet-D,,"Buck OUTPUT cap. MUST be aluminum-polymer (~20-40mOhm ESR), NOT tantalum/ceramic (TPS5430 can oscillate on all-ceramic). Footprint says Tantalum — change to polymer. Need 220uF >=25V (>=35V margin) 7343 SKU.",
+"C7,C9,C18",3,10nF,,,,Capacitor_SMD:C_0805_2012Metric,,"MERGED DUPLICATE: C7 was labeled '.01uF' = 10nF. One of these is the buck BOOT cap. 50V X7R 0805.",
+"C10,C12,C13",3,2.2uF,,,,Capacitor_SMD:C_0805_2012Metric,,"Two are the STM32 VCAP caps (2.2uF). 0805 X7R.",
+"C11,C20,C24,C25,C26,C27,C29,C30",8,100nF,,,,Capacitor_SMD:C_0805_2012Metric,,"MERGED DUPLICATE: C11 was labeled '.1uF' = 100nF. MCU/IC decoupling. 50V X7R 0805.",
+"C21,C22",2,22pF,,,,Capacitor_SMD:C_0805_2012Metric,,"Crystal load caps. OPEN ITEM: confirm 22pF against chosen crystal CL (~12-14pF). C0G/NP0 0805.",
+C28,1,4.7uF,,,,Capacitor_SMD:C_0805_2012Metric,,"Jellybean 0805 X7R.",
+CN1,1,SM10B-SRSS-TB,,,,drone_lib:CONN-SMD_10P-P1.00_SM10B-SRSS-TB-LF-SN,C160409,"JST SH 1.0mm 10-pin (ESC harness). Verified.",https://lcsc.com/product-detail/Others_JST-Sales-America__JST-Sales-America-SM10B-SRSS-TB-LF-SN_C160409.html
+D1,1,D_Zener,,,,Diode_SMD:D_SOD-123,,"Zener voltage NOT specified — need Vz before assigning SKU.",
+D2,1,SS34,,,,Diode_SMD:D_SMA,,"SS34 (40V 3A Schottky, SMA) — USB VBUS OR / buck catch. Common part; pick SKU.",https://www.vishay.com/docs/88751/ss32.pdf
+"D3,D4",2,D_Schottky,,,,Diode_SMD:D_SMA,,"Generic Schottky, SMA — specify exact part (e.g. SS34/B5819).",
+D5,1,LED,,,,LED_SMD:LED_0805_2012Metric,,"Indicator LED 0805 — pick color/SKU.",
+D6,1,LED,,,,LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder,,"Same LED part as D5 (hand-solder footprint variant).",
+FB1,1,600ohms 100MHz,,,,Inductor_SMD:L_0805_2012Metric,,"Ferrite bead 600ohm@100MHz 0805 — pick current rating SKU.",
+IMU-U2,1,TLV73333PDBV,,,,Package_TO_SOT_SMD:SOT-23-5,C134139,"IMU-rail LDO, TLV73333PDBVR (3.3V fixed, SOT-23-5). Verified vs datasheet.",http://www.ti.com/lit/ds/symlink/tlv733p.pdf
+J1,1,Conn_01x05,,,,Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical,,"2.54mm header — pick SKU or hand-populate.",
+J2,1,USB_C_Receptacle_USB2.0_14P,,,,Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12,C165948,"TYPE-C-31-M-12 (16P SMD). Verified.",https://www.usb.org/sites/default/files/documents/usb_type-c.zip
+J3,1,Conn_01x04,,,,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,,"2.54mm header — pick SKU or hand-populate.",
+L2,1,15uH,,,,drone_lib:IND-SMD_L6.0-W6.0,,"WRONG NUMBER FIX: C354622 (22uH) is SUPERSEDED by the 4S redesign. Need 15uH >=3A shielded (6028-class) SKU.",
+"R1,R2",2,5.1k,,,,Resistor_SMD:R_0805_2012Metric,,"USB CC pulldowns. 5.1k 1% 0805.",
+"R3,R4,R9,R13,R15,R17,R18",7,10k,,,,Resistor_SMD:R_0805_2012Metric,,"10k 1% 0805.",
+R5,1,1k,,,,Resistor_SMD:R_0805_2012Metric,,"1k 0805.",
+R6,1,100k,,,,Resistor_SMD:R_0805_2012Metric,,"100k 0805.",
+R7,1,10k,,,,Resistor_SMD:R_0603_1608Metric,,"OUTLIER: 10k but 0603 while all other 10k are 0805. Confirm intentional or change to 0805.",
+R8,1,3.24k,,,,Resistor_SMD:R_0805_2012Metric,,"Buck feedback R2 (with R3=10k sets 5.0V). 1% 0805.",
+R14,1,470,,,,Resistor_SMD:R_0805_2012Metric,,"470R 0805.",
+R19,1,330,,,,Resistor_SMD:R_0805_2012Metric,,"330R 0805.",
+"SW1,SW2",2,SW_Push,,,,Button_Switch_THT:SW_PUSH_6mm,,"BOOT0 / NRST tact switches, 6mm THT — pick SKU.",
+U1,1,AP2112K-3.3,,,,Package_TO_SOT_SMD:SOT-23-5,C51118,"Main 3.3V LDO. Verified vs datasheet.",https://www.diodes.com/assets/Datasheets/AP2112.pdf
+U2,1,USBLC6-2SC6,,,,Package_TO_SOT_SMD:SOT-23-6,C7519,"USB ESD (optional). Verified vs datasheet.",https://www.st.com/resource/en/datasheet/usblc6-2.pdf
+U3,1,W25Q128JVSIQTR,,,,drone_lib:SOIC-8_L5.3-W5.3-P1.27-LS8.0-BL,C97521,"Blackbox flash 16MB. Verified vs datasheet.",https://lcsc.com/product-detail/FLASH_W25Q128JVSIQTR_C97521.html
+U4,1,STM32F405RGTx,,,,Package_QFP:LQFP-64_10x10mm_P0.5mm,C15742,"MCU STM32F405RGT6. Verified vs datasheet.",https://www.st.com/resource/en/datasheet/stm32f405rg.pdf
+U5,1,TPS5430DDAR,,,,drone_lib:ESOP-8_L4.9-W3.9-P1.27-LS6.0-TL-EP,C9864,"5V/3A buck. Verified vs datasheet.",https://lcsc.com/product-detail/DC-DC-Converters_TI_TPS5430DDAR_TPS5430DDAR_C9864.html
+U6,1,ICM-42605,,,,drone_lib:LGA-14_L3.0-W2.5-P0.50-TL,C2655099,"IMU (default). Drop-in alt = ICM-42688-P C1850418. Verified vs datasheet.",https://www.lcsc.com/datasheet/C2655099.pdf
+Y1,1,8MHz,,,,Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm,,"8MHz HSE crystal, 3225 4-pad — pick SKU; note its CL drives C21/C22 value.",

@@ -646,12 +646,6 @@
           "label": "#",
           "name": "${ITEM_NUMBER}",
           "show": false
-        },
-        {
-          "group_by": false,
-          "label": "Sim.Pins",
-          "name": "Sim.Pins",
-          "show": false
         }
       ],
       "filter_string": "",
@@ -702,7 +696,7 @@
         "uuid": "30482008-3d6c-427d-9917-9811da561e6b"
       }
     ],
-    "used_designators": "D7-8,#PWR30,#PWR32,#PWR35-39,#PWR60-61,#PWR63-64,#PWR86,C31,Q1-2,J4-8,#FLG7-9,R20-21,TP1,JP1-11",
+    "used_designators": "#PWR86",
     "variants": []
   },
   "sheets": [

@@ -1,5 +1,5 @@
 # Custom Drone Flight Controller PCB
-
+![Flight controller PCB, top view](images/3d-viewer.png)
 ## Overview
 This project is a custom-designed, STM32-based flight controller for FPV drones, running Betaflight firmware. It is primarily built as a personal engineering challenge to design a complex embedded system from scratch and see it successfully operate in the real world.
 

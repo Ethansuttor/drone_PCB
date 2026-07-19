@@ -1,17 +1,17 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 7,
     "active_layer_preset": "",
     "auto_track_width": false,
     "hidden_netclasses": [],
     "hidden_nets": [
-      "+5V",
+      "+5V_Buck",
       "GND",
       "+3V3",
+      "+5V",
+      "+5V_USB",
       "+3V3_IMU",
-      "+BATT",
-      "+5V_Buck",
-      "+5V_USB"
+      "+BATT"
     ],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
@@ -57,11 +57,9 @@
       "drc_exclusions",
       "locked_item_shadows",
       "conflict_shadows",
-      "shapes",
-      "board_outline_area",
-      "ly_points"
+      "shapes"
     ],
-    "visible_layers": "ffffffff_ffffffff_ffffffff_ffffffdf",
+    "visible_layers": "ffffffff_ffffffff_fffffffd_ffffffff",
     "zone_display_mode": 0
   },
   "git": {
@@ -104,18 +102,18 @@
       11
     ],
     "col_widths": [
-      203,
-      184,
-      114,
-      84,
-      114,
-      114,
-      114,
-      89,
-      114,
-      114,
-      114,
-      114
+      254,
+      230,
+      143,
+      105,
+      143,
+      143,
+      143,
+      111,
+      143,
+      143,
+      143,
+      143
     ],
     "custom_group_rules": [],
     "expanded_rows": [],

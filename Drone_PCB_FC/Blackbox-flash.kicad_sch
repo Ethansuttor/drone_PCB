@@ -1278,7 +1278,7 @@
 				)
 			)
 		)
-		(property "Value" "W25Q128JVSIQTR"
+		(property "Value" "GD25Q16ETIGR"
 			(at 133.35 87.63 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1299,7 +1299,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://lcsc.com/product-detail/FLASH_W25Q128JVSIQTR_C97521.html"
+		(property "Datasheet" "https://lcsc.com/product-https://www.lcsc.com/datasheet/C2904431.pdf?spm=wm.sxq.inf.ggs___wm.fly.bg.4.xh&lcsc_vid=E1cLVgVQFFBaAgBWEgdcBV1QEVdXVVQATwAIUAJRQ1gxVlNeQ1VaV11TRVJaUTsOAxUeFF5JWBYZEEoKFBINSQcJGk4eFQsCAgIaSgADAwAHC0slRlZXVlNXWQkaCgg%3D"
 			(at 133.35 110.49 0)
 			(hide yes)
 			(show_name no)
@@ -1343,7 +1343,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C97521"
+		(property "LCSC Part" "C2904431"
 			(at 133.35 118.11 0)
 			(hide yes)
 			(show_name no)

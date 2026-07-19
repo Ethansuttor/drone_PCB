@@ -3469,7 +3469,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6ec453b5-9c13-4654-ac77-7f39850f9f4a")
-		(property "Reference" "JP7"
+		(property "Reference" "USB5V1"
 			(at 66.548 102.362 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3531,7 +3531,7 @@
 		(instances
 			(project "Drone_PCB_FC"
 				(path "/30482008-3d6c-427d-9917-9811da561e6b/9f3a4cb2-4ff9-40b8-b1c6-674b1d33e452"
-					(reference "JP7")
+					(reference "USB5V1")
 					(unit 1)
 				)
 			)
@@ -4104,7 +4104,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b896fc9d-ae75-46e7-96ba-673427c7c43b")
-		(property "Reference" "JP11"
+		(property "Reference" "USB5V2"
 			(at 66.548 112.522 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4166,7 +4166,7 @@
 		(instances
 			(project "Drone_PCB_FC"
 				(path "/30482008-3d6c-427d-9917-9811da561e6b/9f3a4cb2-4ff9-40b8-b1c6-674b1d33e452"
-					(reference "JP11")
+					(reference "USB5V2")
 					(unit 1)
 				)
 			)

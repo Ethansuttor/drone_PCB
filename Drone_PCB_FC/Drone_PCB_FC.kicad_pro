@@ -162,7 +162,7 @@
         "min_track_width": 0.2,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
-        "solder_mask_to_copper_clearance": 0.0,
+        "solder_mask_to_copper_clearance": 0.005,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -540,10 +540,14 @@
   },
   "pcbnew": {
     "last_paths": {
+      "gencad": "",
       "idf": "",
       "netlist": "",
       "plot": "",
+      "pos_files": "",
       "specctra_dsn": "",
+      "step": "",
+      "svg": "",
       "vrml": ""
     },
     "page_layout_descr_file": ""
@@ -702,7 +706,7 @@
         "uuid": "30482008-3d6c-427d-9917-9811da561e6b"
       }
     ],
-    "used_designators": "D7-8,#PWR30,#PWR32,#PWR35-39,#PWR60-61,#PWR63-64,#PWR86,C31,Q1-2,J4-8,#FLG7-9,R20-21,TP1,JP1-11",
+    "used_designators": "D9,#PWR65",
     "variants": []
   },
   "sheets": [

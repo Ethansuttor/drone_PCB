@@ -5,9 +5,11 @@
 # MCU — STM32F405RGT6TR (LQFP-64)
 C15742
 
-# IMU — default populate = ICM-42605
+# IMU — default populate = BMI270 (Bosch, LCSC in-stock small qty). NEW footprint — different pinout than 426xx
+C2836813
+# IMU — ICM-42605 (426xx LGA-14) — superseded: reel-only / OOS in small qty
 C2655099
-# IMU — ICM-42688-P, drop-in alternate (same LGA-14 footprint)
+# IMU — ICM-42688-P (426xx LGA-14) — superseded: reel-only / OOS in small qty
 C1850418
 
 # Blackbox flash — W25Q128JVSIQ (SOIC-8, 16MB)

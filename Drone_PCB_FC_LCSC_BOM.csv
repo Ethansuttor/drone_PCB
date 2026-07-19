@@ -1,34 +1,33 @@
 Comment,Designator,Footprint,Qty,LCSC Part #,Notes
 STM32F405RGT6,U4,LQFP-64_10x10mm_P0.5mm,1,C15742,MCU. Verified.
-ICM-42605,U6,LGA-14_L3.0-W2.5-P0.50-TL,1,C2655099,IMU (default). Drop-in alt ICM-42688-P = C1850418. Verified.
-W25Q128JVSIQ,U3,SOIC-8_5.3x5.3mm_P1.27mm,1,C97521,Blackbox flash. Verified.
+BMI270,U6,LGA-14_L3.0-W2.5-P0.50-BR,1,C2836813,"IMU. REPLACES ICM-42605 (C2655099) / ICM-42688-P (C1850418) — entire 426xx family is reel-only or OOS in small qty. Bosch BMI270 is in stock at LCSC at qty 1, ~$0.82-1.79. WARNING: DIFFERENT PINOUT from the 426xx — footprint changed to ...-BR and every IMU net was re-wired. Wiring (4-wire SPI, Secondary=None, datasheet Table 22 p.145): SCx(13)=SPI1 SCK/PA5, SDx(14)=MOSI/PA7, SDO(1)=MISO/PA6, CSB(12)=CS/PC4 + 10k pullup to VDDIO, INT1(4)=PC3/EXTI3. VDD(8)=+3V3_IMU +100nF, VDDIO(5)=+3V3 +100nF, GND(7)+GNDIO(6)=GND. ASDx(2)/ASCx(3)->VDDIO; OCSB(10)/OSDO(11)/INT2(9)=DNC. Decoupling is just 100nF x2 (NOT the 2.2uF/10nF combo the 426xx wanted). Betaflight gyro define = BMI270."
+BY25Q128ESSIG(T),U3,SOIC-8_5.3x5.3mm_P1.27mm,1,C22471255,"Blackbox flash 16MB, ~$0.36. BOYAMICRO BY25Q128ES is NAMED in Betaflight's supported flash list. SOIC-8-208mil = same footprint+pinout as W25Q128 (drop-in). Replaces Winbond C97521/C179171 which hit MOQ 12-14 (~$25-30). Backup: GD25Q128ESIG C2758105 (~$0.83, GigaDevice, also BF-supported). Avoid Puya (not in BF list)."
 AP2112K-3.3,U1,SOT-23-5,1,C51118,Main 3.3V LDO. Verified.
 TLV73333PDBVR,IMU-U2,SOT-23-5,1,C134139,IMU-rail 3.3V LDO. Verified.
-TPS5430DDAR,U5,ESOP-8_L4.9-W3.9-EP,1,C9864,5V/3A buck. Verified.
+TPS5450DDAR,U5,ESOP-8_L4.9-W3.9-EP,1,C114425,"Pin-for-pin drop-in for TPS5430DDAR (C9864, OOS). Same DDA/ESOP-8 + pinout + 1.221V ref (10k/3.24k still =5.0V), 5.5-36V in, 5A. All buck passives unchanged. If load >3A, upgrade catch diode D2 to 5A Schottky (SS54). Verified in stock."
 USBLC6-2SC6,U2,SOT-23-6,1,C7519,USB ESD (optional). Verified.
 TYPE-C-31-M-12,J2,USB-C_SMD_TYPE-C-31-M-12,1,C165948,USB-C receptacle. Verified.
 SM10B-SRSS-TB,CN1,CONN-SMD_10P-P1.00_SM10B-SRSS-TB,1,C160409,JST SH 1.0 10P (ESC). Verified.
 SUN-12095-5VPA7.6,BZ1,Buzzer_12x9.5RM7.6,1,C360615,Buzzer. Set DNP if not populating.
 8MHz,Y1,Crystal_SMD_3225-4Pin,1,C2682775,YXC X32258MOB4SI 8MHz 3225. Verified.
-15uH,L2,IND-SMD_L6.0-W6.0,1,C5189959,"SHOU HAN CYA0630-15UH. REPLACES superseded 22uH C354622 (4S change). VERIFY Isat >= 3A for buck."
+15uH,L2,drone_lib:IND-SMD_L6.0-W6.0_SWPA6045S,1,C83374,"Sunlord SWPA6045S150MT 15uH, 6.0x6.0x4.5mm, ~2A Irms / 2.7A Isat, 71mOhm. MOQ 10 = ~$0.70, IN STOCK. Replaces 22uH C354622 (wrong value after 4S change + OOS + MOQ 10 @ $25). FOOTPRINT ACTION: not identical to the old land — new pads are at +/-2.60mm / 2.47x5.02mm vs old +/-2.50mm / 2.20x5.72mm. Import via libs/import_lcsc.py and repoint L2. For near-3A load use Bourns SRN6045TA-150M (C1330797)."
 600R@100MHz,FB1,L_0805_2012Metric,1,C139475,Bourns MU2029-600Y ferrite bead 0805. Verified.
 SS34,D2,D_SMA,1,C8678,MDD SS34 40V 3A Schottky SMA. Verified.
 D_Schottky,"D3,D4",D_SMA,2,C8678,Using SS34 (same as D2). Verified.
 D_Zener,D1,D_SOD-123,1,C173413,"3.3V zener clamp on ESC current-sense line into PC1 (1k series + zener). MDD BZT52C3V3 SOD-123. Verified."
 LED,"D5,D6",LED_0805_2012Metric,2,C2295,Hubei KENTO KT-0805R red 0805. Verified.
 1uF,"C1,C2,C3,C4,C19",C_0805_2012Metric,5,C28323,Samsung CL21B105KBFNNNE 1uF 50V X7R. Verified.
-10uF,C5,C_1210_3225Metric,1,C77102,"Buck Cin, GRM32ER71H106KA12L 50V. Design wants 2x10uF — BOM has 1; verify qty. Verified."
-220uF,C8,Capacitor_Tantalum_SMD:CP_EIA-7343-20_Kemet-D,1,C156462,"Buck Cout (5V rail -> needs >=10V, NOT 25/35V). TYPE = tantalum/aluminum-POLYMER, matches datasheet Sanyo POSCAP 10TPB220M, ~40mOhm ESR — NOT MnO2 tantalum, NOT ceramic. Footprint stays 7343 (POSCAP is 7343); -20 matches ~2mm height. C156462 = KEMET T520 220uF polymer but 6.3V (tight on 5V) — prefer a 10V T520/T525 220uF polymer if you can get one."
+10uF,"C5,C6",C_1210_3225Metric,2,C77102,"Buck Cin, GRM32ER71H106KA12L 50V X7R. QTY CORRECTED 1->2 per locked design. TPS545x input RMS ripple = Iout/2 ~= 1.5A (datasheet 8.2.1.2.2); two caps halve per-part ripple current and lower effective ESR. 1210 is mandatory: 50V rating + DC-bias derating at 16.8V (a small pkg would derate below the 4.7uF datasheet minimum). ACTION: C6 must still be added to the schematic/board — only C5 is currently placed."
+220uF,C8,Capacitor_Tantalum_SMD:CP_EIA-7343-31_Kemet-D,1,C242173,"Buck Cout. Panasonic POSCAP 10TPB220M — the EXACT part named in the TPS543x/545x datasheet worked example (8.2.1.2.3.2). 220uF / 10V / ESR 40mOhm @100kHz / 3000mA ripple rating (design needs 143mA). REPLACES C156462 (KEMET T520): that part was 220uF but only 6.3V — too tight on a 5V rail since tantalum-family needs ~2x voltage derating (TI's reference is 10V) — and its 12mOhm ESR sat below the 20-40mOhm band the TPS545x internal compensation assumes, pushing the ESR zero from ~18kHz to ~60kHz past crossover. Case EIA-7343 (2917) 7.3x4.3x3.8mm: same land pattern as before, but 3.8mm tall (was ~2mm) so footprint bumped -20 -> -31; confirm nothing overhangs it."
 10nF,"C7,C9,C18",C_0805_2012Metric,3,C1710,"MERGED: C7 was '.01uF'=10nF. One is buck BOOT cap. Samsung 50V X7R. Verified."
 2.2uF,"C10,C12,C13",C_0805_2012Metric,3,C49217,"Two are STM32 VCAP. Fenghua 0805F225M500NT 50V. Verified."
 100nF,"C11,C20,C24,C25,C26,C27,C29,C30",C_0805_2012Metric,8,C49678,"MERGED: C11 was '.1uF'=100nF. YAGEO 100nF 50V X7R. Verified."
 22pF,"C21,C22",C_0805_2012Metric,2,C1804,"Crystal load caps. Samsung 22pF 50V C0G. CONFIRM value vs crystal CL. Verified."
 4.7uF,C28,C_0805_2012Metric,1,C1779,Samsung 4.7uF 25V 0805. Verified.
 5.1k,"R1,R2",R_0805_2012Metric,2,C27834,USB CC pulldowns. UNI-ROYAL 5.1k 1% 0805. Verified.
-10k,"R3,R4,R9,R13,R15,R17,R18",R_0805_2012Metric,7,C17414,UNI-ROYAL 10k 1% 0805. Verified.
+10k,"R3,R4,R7,R9,R13,R15,R17,R18",R_0805_2012Metric,8,C17414,"UNI-ROYAL 10k 1% 0805. R7 (buck feedback upper) MERGED IN from the separate 0603 line — no electrical reason for a smaller package: it dissipates ~1.4uW (378uA through the 10k/3.24k divider) and sees 3.78V. What actually matters per TPS545x 10.1 is placement: keep R7/R8 close to the VSENSE pin and route the VOUT->VSENSE trace away from the PH node. Both R7 and R8 must be 1% (they set Vout). Verified."
 1k,R5,R_0805_2012Metric,1,C17513,UNI-ROYAL 1k 0805. Verified.
 100k,R6,R_0805_2012Metric,1,C17407,UNI-ROYAL 100k 1% 0805. Verified.
-10k,R7,R_0603_1608Metric,1,C25804,"OUTLIER: 0603 while other 10k are 0805 — confirm intentional. UNI-ROYAL 10k 1% 0603. Verified."
 3.24k,R8,R_0805_2012Metric,1,C101657,Buck feedback R2 (with 10k sets 5.0V). 3.24k 1% 0805. Verified.
 470,R14,R_0805_2012Metric,1,C17710,UNI-ROYAL 470R 1% 0805. Verified.
 330,R19,R_0805_2012Metric,1,C17630,UNI-ROYAL 330R 0805. Verified.

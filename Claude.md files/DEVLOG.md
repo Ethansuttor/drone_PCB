@@ -90,6 +90,23 @@ existing Flycolor Raptor BLS-04 4-in-1 ESC (no BEC → onboard buck required).
 - **Next:** PCB layout — 4-layer, solid L2 ground under the IMU, tight buck
   switching loop kept away from the IMU and analog ADC traces, matched USB pair.
 
+## 2026-07-23 — Custom Betaflight target created + pinout verified against fab board
+- Wrote the custom Betaflight target `betaflight_target/ETHANF405/config.h` plus
+  a build/flash/bring-up guide (`betaflight_target/BUILD.md`).
+- **Reconciled the firmware pin map against the as-ordered board** (CubeMX report
+  + KiCad schematic), which diverged from the v3 context doc's pin table. The
+  board is fabricated, so the schematic is now the source of truth. Captured it in
+  the new canonical `VERIFIED_PINOUT.md` and referenced it from `CLAUDE.md`.
+- Key corrections vs. the old docs: motors are PB0/PB1/**PA3/PB10**
+  (TIM3_CH3/CH4, TIM2_CH4/CH3), flash SPI2 **MISO on PC2** (not PB14), ADC current
+  on **PA2** (VBAT on PA1 unconfirmed — possibly no-connect → maybe no pack-voltage
+  telemetry), status LED on **PC13** via 330Ω (dim, ~3mA backup-domain limit; PB8
+  unconnected). PA8/PB3 are spare pads.
+- **Open before flashing:** confirm PA1 VBAT divider exists; verify motor DShot
+  DMA (`dma show all`) since PA3+PB10 share TIM2 and PB0+PB1 share TIM3.
+- Unblocks: building the `.hex` (`make configs && make ETHANF405`) ahead of the
+  board arriving.
+
 ---
 
 ### Log format (for future entries)

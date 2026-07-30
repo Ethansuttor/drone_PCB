@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 7,
+    "active_layer": 0,
     "active_layer_preset": "",
     "auto_track_width": false,
     "hidden_netclasses": [],
@@ -9,8 +9,8 @@
       "GND",
       "+3V3",
       "+5V",
-      "+5V_USB",
       "+3V3_IMU",
+      "+5V_USB",
       "+BATT"
     ],
     "high_contrast_mode": 0,

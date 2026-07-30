@@ -20,19 +20,72 @@
 #define MANUFACTURER_ID   CUST          // local build only
 
 /* ---------------------------------------------------------------------------
- * IMU / gyro — ICM-42605 populated (default BOM). SPI1. If you fit the
- * pin-compatible ICM-42688-P instead, swap the two driver pairs below.
+ * IMU / gyro — Bosch BMI270 on SPI1 (U7, LCSC C2836813).
+ *
+ * CHANGED 2026-07-30: was ICM-42605. The whole TDK 426xx family went reel-only
+ * / OOS in single quantities, so the board was re-spun onto the BMI270. It is
+ * NOT a drop-in — same 2.5x3.0mm LGA-14 outline, completely different pinout —
+ * but that was absorbed in the schematic/PCB (footprint ...-BR, every IMU net
+ * re-routed). Wiring verified against BMI270 datasheet rev 1.3 Table 22 (p.145).
+ * Nothing below this comment changes for the pin map; only the driver.
+ *
+ * Behavioural differences vs the 42605, all handled by the BF driver but worth
+ * knowing at bring-up:
+ *   - Gyro ODR is 3.2 kHz in Betaflight (chip max 6.4 kHz), NOT 8 kHz. The PID
+ *     loop ceiling is 3.2k. Don't try to force 8k in Configurator.
+ *   - SPI clock ceiling 10 MHz (BMI270_MAX_SPI_CLK_HZ) vs 24 MHz on the 42605.
+ *   - The driver uploads an ~8 KB init blob over SPI at every boot. A marginal
+ *     SPI1 connection shows up as "no gyro detected", not as noise.
+ *   - The chip powers up in I2C mode and only switches to SPI on a CSB rising
+ *     edge. R3 (10k to +3V3) holds CSB high through POR; the BF driver toggles
+ *     CS to make the transition. Relevant only if you ever drive it from bare
+ *     STM32 code.
+ *   - The BMI270 ships uncalibrated (this is why BF discourages it for new
+ *     designs). Irrelevant in Acro; costs you a few percent attitude accuracy
+ *     in Angle/Horizon and on level trim.
  * ------------------------------------------------------------------------- */
 #define USE_GYRO
 #define USE_ACC
-#define USE_GYRO_SPI_ICM42605
-#define USE_ACC_SPI_ICM42605
-// #define USE_GYRO_SPI_ICM42688P     // <- use these two instead if 42688-P fitted
-// #define USE_ACC_SPI_ICM42688P
+#define USE_GYRO_SPI_BMI270
+#define USE_ACC_SPI_BMI270
 
-/* Blackbox flash — Winbond W25Q128JV on SPI2 (driver name is W25Q128FV) */
+/* ---------------------------------------------------------------------------
+ * Blackbox flash — SPI2.
+ *
+ * FITTED PART IS **GigaDevice GD25Q16E (LCSC C2904431) — 16 Mbit = 2 MB**, not
+ * the 128 Mbit part the BOM called for. Ordered by mistake; kept deliberately.
+ *
+ * The define below looks wrong but IS correct. Betaflight's flash detection is
+ * JEDEC-ID based at runtime, and `USE_FLASH_W25Q128FV` is only a gate that
+ * pulls in the generic m25p16 driver via common_post.h:
+ *
+ *     #if (defined(USE_FLASH_W25M512) || defined(USE_FLASH_W25Q128FV) \
+ *          || defined(USE_FLASH_PY25Q128HA)) && !defined(USE_FLASH_M25P16)
+ *     #define USE_FLASH_M25P16
+ *     #endif
+ *
+ * That driver's device table contains our chip:
+ *     // GigaDevice GD25Q16E
+ *     { 0xC84015, 104, 50, 32, 256 },   // 32 sectors x 256 pages x 256 B = 2 MB
+ * so it enumerates and works with no code change. Do NOT "fix" this to some
+ * GD25Q16 define — no such define exists.
+ *
+ * CONSEQUENCE: 2 MB, i.e. 1/8th the intended log space. Rule of thumb is
+ * ~30 KB/s of log per kHz of logging rate for a standard quad field set:
+ *
+ *     3.2 kHz (1/1)  ~96 KB/s  ->  ~22 s   <- unusable
+ *     1.6 kHz (1/2)  ~48 KB/s  ->  ~44 s
+ *     800 Hz  (1/4)  ~24 KB/s  ->  ~87 s   <- recommended
+ *
+ * So set `blackbox_sample_rate = 1/4` at bring-up (see BUILD.md). 800 Hz still
+ * resolves everything below 400 Hz, which covers the noise peaks that matter
+ * for filter and PID tuning. Tuning runs are 30-60 s anyway; this board just
+ * can't log a whole pack. Upgrade path if that ever bites: GD25Q128E
+ * (C2758105) or BY25Q128ES (C22471255) — both in the same m25p16 table, both
+ * identical SOIC-8 208mil pinout, hot-air swap.
+ * ------------------------------------------------------------------------- */
 #define USE_FLASH
-#define USE_FLASH_W25Q128FV
+#define USE_FLASH_W25Q128FV     // gate for the m25p16 driver; actual chip is GD25Q16E, 2 MB
 
 /* ---------------------------------------------------------------------------
  * Pin assignments — from the CubeMX pinout of the ordered board
@@ -112,7 +165,11 @@
 #define SYSTEM_HSE_MHZ       8
 
 /* Gyro orientation — depends on how the chip faces vs the frame front.
- * >>> VERIFY at bring-up: watch the Setup-tab 3D model, adjust until it tracks. */
+ * >>> VERIFY at bring-up: watch the Setup-tab 3D model, adjust until it tracks.
+ * This value is a PLACEHOLDER and is very likely wrong since the IMU changed:
+ * the BMI270 has different die axes AND sits on a different footprint
+ * orientation (-BR) than the 42605 this was originally guessed for. Re-derive
+ * it on the bench, don't assume CW0 carried over. */
 #define GYRO_1_ALIGN         CW0_DEG
 
 #define DEFAULT_BLACKBOX_DEVICE      BLACKBOX_DEVICE_FLASH

@@ -32,11 +32,35 @@ The image file will be added separately — just place the reference.
 
 **Also update:** Betaflight gyro define is now `BMI270`.
 
-## 3. Blackbox flash changed: W25Q128JVSIQ → BOYAMICRO BY25Q128ESSIG
+## 3. Blackbox flash: W25Q128JVSIQ → BY25Q128ESSIG (spec) → **GD25Q16E, 2 MB (actually fitted)**
 
-**What changed:** Blackbox flash is now the **BOYAMICRO BY25Q128ES** (LCSC C22471255), 16MB SPI NOR.
+**What changed:** Blackbox flash as **actually ordered and fitted** is the
+**GigaDevice GD25Q16E** (LCSC C2904431) — **16 Mbit = 2 MB**, not the 16 MB the
+BOM specified.
 
-**Why:** The Winbond W25Q128JVSIQ hit a minimum order quantity of 12–14 units (~$25–30). The BY25Q128ES is explicitly named in Betaflight's supported flash list, and its SOIC-8 208-mil package matches the W25Q128 footprint and pinout exactly, making it a true drop-in at roughly $0.36. Backup part is the GigaDevice GD25Q128ESIG (C2758105), also Betaflight-supported.
+**Why (two steps):** The Winbond W25Q128JVSIQ hit a minimum order quantity of
+12–14 units (~$25–30), so the BOM moved to the BOYAMICRO BY25Q128ES (C22471255,
+16 MB, ~$0.36, SOIC-8 208-mil drop-in, explicitly named in Betaflight's supported
+flash list). **Then the wrong part was actually ordered** — a 16 Mbit GD25Q16E
+instead of a 128 Mbit chip. Caught 2026-07-30 while reconciling the BOM files.
+
+**Decision: keeping it.** It works with no firmware change, because
+`USE_FLASH_W25Q128FV` is not a chip selector — it only gates Betaflight's generic
+`m25p16` driver, which identifies chips by JEDEC ID at runtime. The GD25Q16E is in
+that driver's table (`{ 0xC84015, 104, 50, 32, 256 }` = 2,097,152 bytes).
+
+**Engineering angle worth writing up honestly:** the cost is log *duration*, not
+function — roughly 22 s at a 3.2 kHz log rate, ~87 s at `blackbox_sample_rate = 1/4`
+(800 Hz). Since 800 Hz still resolves everything below 400 Hz, where the motor and
+frame noise peaks that filter tuning depends on actually sit, and tuning runs are
+30–60 s anyway, the practical loss is only the ability to log a whole pack. The
+recovery cost is also near zero: every candidate part shares the SOIC-8 208-mil
+footprint, so upgrading to GD25Q128E (C2758105) or BY25Q128ES (C22471255) is a
+hot-air swap with no layout or firmware change. Worth presenting as a sourcing
+mistake caught by cross-checking three BOM files against the firmware, and
+mitigated in configuration rather than copper.
+
+**Do not claim the board has 16 MB of blackbox storage.**
 
 ## 4. Buck regulator changed: TPS5430DDAR → TPS5450DDAR
 

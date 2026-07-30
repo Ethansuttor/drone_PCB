@@ -27,8 +27,16 @@ Custom ~80×80mm STM32F405RGT6 flight controller for a 4S LiPo freestyle drone. 
 ## Verified pinout (as-ordered board, 2026-07-23)
 
 Motors: M1=PB0 (TIM3_CH3), M2=PB1 (TIM3_CH4), M3=PA3 (TIM2_CH4), M4=PB10 (TIM2_CH3).
-Gyro (ICM-42605) SPI1: SCK PA5 / MISO PA6 / MOSI PA7, CS PC4, INT PC3.
-Flash (W25Q128JV) SPI2: SCK PB13 / **MISO PC2** / MOSI PB15, CS PB12.
+Gyro (**Bosch BMI270**, U7, LCSC C2836813) SPI1: SCK PA5 / MISO PA6 / MOSI PA7, CS PC4, INT PC3.
+IMU changed from ICM-42605 → BMI270 (426xx family unobtainable in qty 1). Not a
+drop-in: same LGA-14 outline, different pinout, new footprint, all IMU nets
+re-routed. Betaflight define = `BMI270`; max PID loop 3.2 kHz, not 8 kHz.
+`+3V3_IMU` (BMI270 VDD) sits behind solder jumper **JP10** — must be bridged.
+Flash SPI2: SCK PB13 / **MISO PC2** / MOSI PB15, CS PB12. Fitted part is
+**GD25Q16E, 2 MB** (C2904431) — wrong part ordered, kept. Works with no firmware
+change (BF detects by JEDEC ID; `USE_FLASH_W25Q128FV` just gates the m25p16
+driver). Configurator reporting 2 MB is correct. **Set `blackbox_sample_rate = 1/4`**
+at bring-up or the log fills in ~22 s.
 Receiver USART1: TX PA9 / RX PA10 (i-BUS). USB PA11/PA12. SWD PA13/PA14.
 Current sense PA2 (confirmed). VBAT sense PA1 (**unconfirmed — may be no-connect**).
 Buzzer PC5. Status LED PC13 (via 330Ω; ~3mA-limited, dim). PB8 unconnected. PA8/PB3 = spare pads.

@@ -2,6 +2,36 @@
 
 **Date:** 2026-06-09. Supersedes v1 (`drone_fc_project_context.md`) and the lost v2. Incorporates the June 2026 audit (`FC_audit_2026-06-09.md`). Build is a **bench/resume project: no VTX, camera, or OSD**.
 
+> ### ⚠ Update 2026-07-30 — IMU CHANGED: ICM-42605 → Bosch BMI270
+>
+> **Every ICM-42605 / ICM-42688-P / 426xx reference below this box is superseded.**
+> The board is built around the **Bosch BMI270** (U7, LCSC C2836813, footprint
+> `drone_lib:LGA-14_L3.0-W2.5-P0.50-BR`). The 2026-06-23 decision recorded below
+> ("BMI270 evaluated and rejected", "stay with the ICM-42605 default") was
+> **reversed on sourcing grounds**: the entire TDK 426xx family went reel-only
+> (MOQ 1000+) or out of stock in single quantities at LCSC, DigiKey and Mouser.
+>
+> It is **not a drop-in.** Same 2.5×3.0mm LGA-14 outline, completely different
+> pinout → new footprint and every IMU net re-routed. Decoupling is simpler:
+> **100nF at VDD + 100nF at VDDIO**, not the 2.2µF/0.1µF/10nF the 426xx wanted.
+> The unused-pin strapping is also different — ASDx(2)/ASCx(3) go to **VDDIO**
+> and must *not* be grounded, and INT2(9)/OCSB(10)/OSDO(11) are left
+> **unconnected**, where the 42605's RESV pins went to GND.
+>
+> **The power architecture did not change at all** — VDD still on the quiet
+> TLV733P `+3V3_IMU` rail, VDDIO still on the main AP2112K `+3V3`. That's the
+> payoff of the rail-split decision: a forced sourcing change cost a footprint
+> and a re-route, not a power redesign.
+>
+> Firmware: Betaflight define is `BMI270`. **PID loop ceiling drops to 3.2 kHz**
+> (BF clocks the BMI270 gyro at 3.2 kHz ODR; chip max is 6.4 kHz), SPI clock
+> ceiling is **10 MHz** not 24 MHz, and the driver uploads an ~8 KB init blob at
+> every boot. The BMI270 also ships uncalibrated — a few percent attitude error
+> in Angle/Horizon, irrelevant in Acro. `GYRO_1_ALIGN` must be re-derived.
+>
+> Canonical pad-by-pad wiring table (verified against BMI270 datasheet rev 1.3
+> Table 22, p.145): see **`VERIFIED_PINOUT.md` § IMU**.
+
 **Update 2026-07-11 (SCHEMATIC COMPLETE — verified, entering layout):**
 Full netlist re-verified pin-by-pin against the KiCad files (not the docs) this session. Status: **schematic done, ERC-clean pending, ready for layout.** Resolutions since 2026-06-28:
 - **IMU rail swap DONE** — as-drawn is now correct: VDDIO (pin 5) → +3V3 (main), VDD (pin 8) → +3V3_IMU (quiet). All 14 ICM-42605 pins verified: MISO/MOSI/SCLK/CS on 1/14/13/12, INT1 (4) → PC3/EXTI3, RESV pin 7 + RESV 2/3/10/11 + INT2/FSYNC (9) → GND, CS 10k pull-up → +3V3. Decoupling: VDD 2.2µF+0.1µF, VDDIO 10nF.
@@ -74,8 +104,8 @@ LiPo (3–6S, ≤25.2V) → BLS-04/Trinx ESC → raw VBAT on 10-pin harness
    VBAT ─┬─→ sense divider 100k/10k → PC1 (ADC)
          └─→ TPS5430DDAR buck (VBAT→5V, 3A) ─┬─ 5V rail
 USB-C VBUS → Schottky (SS34/B5819W) ─────────┘
-5V rail → AP2112K-3.3 (600mA) → 3.3V: MCU, flash, LED, logic, ICM-42605 VDDIO (pin 5)
-5V rail → TLV733P-3.3 (LCSC C134139) → 3.3V_IMU: ICM-42605 VDD (pin 8) only — dedicated quiet rail
+5V rail → AP2112K-3.3 (600mA) → 3.3V: MCU, flash, LED, logic, BMI270 VDDIO (pin 5)
+5V rail → TLV733P-3.3 (LCSC C134139) → [JP10] → 3.3V_IMU: BMI270 VDD (pin 8) only — dedicated quiet rail
 5V rail → receiver header (FS-iA6B, 5V), active buzzer
 ```
 - **Onboard buck (NEW 2026-06-23): TPS5430DDAR (LCSC C9864), 5.5–36V in → 5V/3A**, fed from the ESC-harness VBAT. Replaces the external Matek MBEC6S (removed) — the BLS-04 / Trinx G20 ESCs have **no BEC**, so the FC must make its own 5V like a normal stack FC. Support parts (locked to TI datasheet values): **22µH ≥3A shielded inductor (CKCS6028, C354622)**, **SS34 catch diode (PH→GND)** (= datasheet B340A), 10nF BOOT cap, feedback **R1=10k / R2=3.24k** (Vref 1.221V → 5.0V), input **2×10µF 50V X7R (GRM32ER71H106KA12L, C77102)**, output **220µF aluminum-polymer (~20–40mΩ ESR) — NOT pure ceramic** (the TPS5430 is internally compensated for some output-cap ESR; all-ceramic output can oscillate).
@@ -127,11 +157,19 @@ Required support circuitry:
 
 **Power:** **TPS5430DDAR buck (ESOP-8, C9864) — VBAT→5V/3A** + 22µH inductor (C354622) + SS34 catch diode + 10nF boot + 10k/3.24k FB + 2×10µF 50V Cin (C77102) + 220µF polymer Cout · AP2112K-3.3 (SOT-23-5) · **TLV733P-3.3 (SOT-23-5, C134139)** · SS34/B5819W Schottky (USB OR) · caps per power section · ~~5V/GND input pads (MBEC6S)~~ **removed — FC powered from ESC VBAT via onboard buck**
 
-**IMU:** ICM-42605 (default populate — LCSC C2655099, ~$9.38, in stock) — **VDD (pin 8) on dedicated 3.3V_IMU with 0.1µF+2.2µF; VDDIO (pin 5) on main 3.3V with 10nF** (datasheet BoM C1/C2/C3) · RESV pin 7→GND mandatory, RESV 2/3/10/11 + INT2/FSYNC→GND · 10k CS pull-up · board center, axes aligned to frame
-- **Footprint is the TDK 426xx LGA-14 (2.5×3mm), shared with ICM-42688-P (C1850418).** Pin-compatible — populate whichever is in stock/cheaper at order time. ICM-42688-P reel went tight June 2026 (price spiked ~$10.5→$14.3, stockouts), so 42605 is the default buy. **2026-06-23 confirmed:** 42605 (C2655099) is buy-1 cut-tape (~1,168 in stock) — the right purchase for self-assembly. **BMI270 evaluated and rejected:** Betaflight officially discourages it for new designs (uncalibrated gyro); not worth leaving the 426xx footprint for a buy-1 part when the 42605 is already buy-1.
-- **Betaflight `config.h` gyro define depends on which chip is fitted:** `GYRO_1_ALIGN`/driver = `ICM42605` if 42605 populated, `ICM42688P` if 42688 populated. Set during bring-up after boards are soldered. (42605 = consumer grade, slightly higher gyro noise than 42688 — irrelevant for this bench build.)
+**IMU (CURRENT — updated 2026-07-30):** **Bosch BMI270** (U7, LCSC C2836813, ~$0.82–1.79, buy-1 in stock) on footprint `drone_lib:LGA-14_L3.0-W2.5-P0.50-BR` — **VDD (pin 8) on dedicated 3.3V_IMU with 100nF; VDDIO (pin 5) on main 3.3V with 100nF** · ASDx (2) + ASCx (3) → **VDDIO** (must NOT be grounded) · INT2 (9), OCSB (10), OSDO (11) → **unconnected** · INT1 (4) → PC3/EXTI3 · CSB (12) → PC4 with 10k pull-up to +3V3 · SCx (13) → PA5, SDx (14) → PA7/MOSI, SDO (1) → PA6/MISO · board center. Pad-by-pad table in `VERIFIED_PINOUT.md` § IMU.
+- **`+3V3_IMU` reaches VDD through solder jumper JP10 (`SolderJumper_2_Open`) — bridge it, or the gyro is unpowered.**
+- **Betaflight define = `BMI270`** (`USE_GYRO_SPI_BMI270` / `USE_ACC_SPI_BMI270`). PID loop ceiling **3.2 kHz** (not 8 kHz), SPI clock ceiling **10 MHz** (not 24 MHz), ~8 KB init blob uploaded at boot, chip boots in I2C and needs a CSB rising edge to enter SPI. `GYRO_1_ALIGN` must be re-derived — the 42605 guess does not carry over.
+- **Known tradeoff (this was the original reason for rejecting it):** the BMI270 ships uncalibrated, which Betaflight cites when discouraging it for new designs — a few percent attitude error. Irrelevant in Acro freestyle, visible in Angle/Horizon and level trim. Accepted because the alternative was not building the board.
 
-**Blackbox:** W25Q128JVSIQ (16MB SOIC-8, SPI2) + 100nF
+> **SUPERSEDED (kept for history — 2026-06-23 decision, reversed 2026-07-30):**
+> ~~ICM-42605 (LCSC C2655099, ~$9.38) default populate; VDD 0.1µF+2.2µF, VDDIO 10nF; RESV pin 7→GND mandatory, RESV 2/3/10/11 + INT2/FSYNC→GND.~~
+> ~~Footprint is the TDK 426xx LGA-14 shared with ICM-42688-P (C1850418), pin-compatible — populate whichever is in stock. BMI270 evaluated and rejected: BF discourages it for new designs (uncalibrated gyro); not worth leaving the 426xx footprint.~~
+> ~~Gyro define = `ICM42605` or `ICM42688P` depending on which is fitted.~~
+> Reversed because the whole 426xx family became reel-only (MOQ 1000+) / OOS at qty 1 across LCSC, DigiKey and Mouser. There is **no** pin-compatible alternate for the current footprint.
+
+**Blackbox (CURRENT — updated 2026-07-30):** **GigaDevice GD25Q16E** (LCSC C2904431, SOIC-8 208mil, SPI2) + 100nF — **16 Mbit = 2 MB, not 16 MB.** Wrong part ordered vs the 128 Mbit spec; kept. Betaflight needs no code change (`USE_FLASH_W25Q128FV` only gates the generic `m25p16` driver, which detects by JEDEC ID; our chip is `{ 0xC84015, 104, 50, 32, 256 }` = 2,097,152 B). Configurator reporting 2 MB is correct. **Set `blackbox_sample_rate = 1/4`** at bring-up → 800 Hz logging, ~87 s per erase; at 1/1 you get ~22 s. Upgrade path: GD25Q128E (C2758105) or BY25Q128ES (C22471255), same JEDEC table, identical pinout, hot-air swap.
+> ~~**Blackbox:** W25Q128JVSIQ (16MB SOIC-8, SPI2) + 100nF~~ — superseded (MOQ 12–14 @ ~$25–30), then superseded again by the ordering error above.
 
 **Connectors:** JST SH1.0 10-pin (ESC) — SM10B-SRSS-TB, **LCSC C160409** (side-entry SMD; confirm vs top-entry against stack routing) · USB-C receptacle — TYPE-C-31-M-12, **LCSC C165948** (JLC-basic) · **4-pin receiver header: 5V, GND, TX, RX** (generic 2.54mm, KiCad stock) · SWD header (generic 2.54mm, KiCad stock) · spare pads: UART3, USART6, I2C1 (J5 external 5V-in pads removed — FC now powered from ESC VBAT via onboard buck)
 
@@ -141,8 +179,11 @@ Required support circuitry:
 | Part | LCSC | Notes |
 |----|----|----|
 | STM32F405RGT6**TR** | C15742 | tape-and-reel/cut-tape, 600 stock, buy-1; KiCad stock symbol `STM32F405RGTx` OK |
-| ICM-42605 (IMU) | C2655099 | default populate; shared 426xx footprint w/ ICM-42688-P (C1850418) |
-| W25Q128JVSIQ (flash) | C97521 | |
+| **BMI270 (IMU)** | **C2836813** | **CURRENT PART (2026-07-30).** Bosch, buy-1 in stock. Footprint `LGA-14_L3.0-W2.5-P0.50-BR`. No pin-compatible alternate. |
+| ~~ICM-42605 (IMU)~~ | ~~C2655099~~ | ~~default populate; shared 426xx footprint w/ ICM-42688-P (C1850418)~~ — **SUPERSEDED**, 426xx reel-only/OOS at qty 1 |
+| **GD25Q16E (flash)** | **C2904431** | **AS-FITTED. 2 MB, not 16 MB — wrong part ordered, kept.** BF-supported via m25p16 JEDEC table, no code change. Set `blackbox_sample_rate = 1/4`. |
+| ~~W25Q128JVSIQ (flash)~~ | ~~C97521~~ | superseded — MOQ 12–14 (~$25–30) |
+| BY25Q128ES / GD25Q128E | C22471255 / C2758105 | not fitted — documented 16 MB upgrade path, identical SOIC-8 208mil pinout |
 | TLV733P-3.3 | C134139 | IMU rail LDO |
 | AP2112K-3.3 | C51118 | main 3.3V LDO |
 | TPS5430DDAR (buck) | C9864 | onboard VBAT→5V/3A, ESOP-8; needs L1 + Cin + Cout + diode + FB below |

@@ -16,7 +16,7 @@ Currently a work in progress (WIP), this board is designed as a bench/resume pro
 ### MCU & Core Logic
 - **Microcontroller:** STM32F405RGT6 (168MHz Cortex-M4 with FPU)
 - **Firmware:** Betaflight (Custom target `ETHANF405`)
-- **Blackbox:** BOYAMICRO BY25Q128ES (16MB SPI NOR Flash), a cost-effective Betaflight-supported drop-in for the Winbond W25Q128 in a SOIC-8 208-mil package.
+- **Blackbox:** GigaDevice GD25Q16E (2MB SPI NOR Flash) in a SOIC-8 208-mil package. The BOM specified a 16MB part (BOYAMICRO BY25Q128ES, itself a cost-effective Betaflight-supported drop-in for the MOQ-restricted Winbond W25Q128); a 2MB chip was ordered by mistake and kept. It needs no firmware change — Betaflight identifies SPI NOR by JEDEC ID at runtime, and this chip is in the driver's device table — so the only cost is log duration, handled by dropping the blackbox sample rate to 1/4 (800Hz, ~90s per erase). Because every candidate part shares the same SOIC-8 208-mil footprint, upgrading later is a hot-air swap with no layout or firmware change.
 
 ### Sensors
 - **IMU:** Bosch BMI270 (SPI1, Betaflight gyro define `BMI270`), mounted dead-center for optimal flight dynamics. Required a new footprint and different decoupling (100nF VDD/VDDIO vs. 2.2µF/0.1µF/10nF) compared to the original 42605, but zero power redesign.

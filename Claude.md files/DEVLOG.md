@@ -107,6 +107,97 @@ existing Flycolor Raptor BLS-04 4-in-1 ESC (no BEC → onboard buck required).
 - Unblocks: building the `.hex` (`make configs && make ETHANF405`) ahead of the
   board arriving.
 
+## 2026-07-30 — IMU changed: ICM-42605 → Bosch BMI270 (sourcing-forced); docs + firmware reconciled
+
+- **Why:** the entire TDK InvenSense 426xx family (ICM-42605, ICM-42688-P,
+  IIM-42652) became unobtainable in single quantities — reel-only MOQ 1000+ at
+  LCSC, OOS/backordered at DigiKey and Mouser. This **reverses the 2026-06-23
+  decision** to stay with the 42605 and the rejection of the BMI270 recorded in
+  that entry.
+- **New part:** Bosch **BMI270**, U7, LCSC **C2836813**, ~$0.82–1.79, buy-1 in
+  stock. Betaflight gyro define `BMI270`.
+- **Not a drop-in.** Same 2.5×3.0mm LGA-14 outline, completely different pinout →
+  new footprint (`drone_lib:LGA-14_L3.0-W2.5-P0.50-BR`) and every IMU net
+  re-routed. Decoupling simplified to **100nF at VDD + 100nF at VDDIO** (the
+  2.2µF/0.1µF/10nF set was a 426xx requirement). Unused-pin strapping inverted:
+  ASDx(2)/ASCx(3) now go to **VDDIO and must not be grounded**, and
+  INT2(9)/OCSB(10)/OSDO(11) are left **unconnected**, where the 42605's RESV pins
+  went to GND.
+- **Power architecture absorbed the swap with zero change** — VDD still on the
+  quiet TLV733P `+3V3_IMU` rail, VDDIO still on the main AP2112K `+3V3`. This is
+  the concrete payoff of the 2026-06-26 rail-split decision: a forced sourcing
+  change cost a footprint and a re-route, not a power redesign.
+- **Verified this session:** all 14 pads checked against BMI270 datasheet rev 1.3
+  Table 22 (p.145) — wiring is correct. IMU nets confirmed routed in the PCB
+  (SPI1_SCK 22 segments, IMU_nCS 18, EXTI3 15, MOSI 9, MISO 7). The production
+  export in `Drone_PCB_FC/production/` already carries U7 = BMI270, so the fab
+  package is the BMI270 board.
+- **Firmware updated:** `config.h` swapped from `USE_GYRO/ACC_SPI_ICM42605` to
+  `USE_GYRO/ACC_SPI_BMI270`. As shipped it would have failed WHO_AM_I and
+  reported "no gyro detected." Behavioural consequences documented in the file:
+  **PID loop ceiling drops 8 kHz → 3.2 kHz** (BF clocks the BMI270 gyro at a
+  3.2 kHz ODR; chip max 6.4 kHz), **SPI clock ceiling 24 MHz → 10 MHz**, driver
+  uploads an ~8 KB init blob at every boot, and the chip boots in I2C mode
+  needing a CSB rising edge to enter SPI (R3's 10k pull-up + BF's CS toggle
+  handle this).
+- **`GYRO_1_ALIGN` flagged as unknown** — the committed `CW0_DEG` was guessed for
+  the 42605's die orientation; the BMI270 has different die axes *and* a
+  different footprint rotation. Must be re-derived on the bench.
+- **Accepted tradeoff:** the BMI270 ships uncalibrated, which is exactly why
+  Betaflight discourages it for new designs (few-percent attitude error).
+  Irrelevant for Acro freestyle, visible in Angle/Horizon and level trim.
+- **Docs reconciled:** `CLAUDE.md`, `VERIFIED_PINOUT.md` (new § IMU with the
+  pad-by-pad table), `drone_fc_project_context_v3.md` (superseding header box +
+  IMU/power/BOM sections, old text struck through rather than deleted),
+  `schematic_capture_walkthrough.md` Block 6 (rewritten), `betaflight_target/BUILD.md`,
+  and `datasheets/lcsc.txt` (marked stale, points at `libs/lcsc.txt`).
+- **New bring-up item found while auditing: JP10.** The `+3V3_IMU` rail reaches
+  the BMI270's VDD through solder jumper **JP10**, which is a
+  `SolderJumper_2_Open` footprint — it ships open. Unbridged, the board
+  enumerates over USB and reports no gyro. Added to the BUILD.md bring-up
+  sequence ahead of the rail smoke test.
+- **Found while auditing — BOM drift across three files.** `production/bom.csv`
+  (2026-07-19, the export the boards were ordered from) lists U3 =
+  **GD25Q16ETIGR C2904431, a 16 Mbit part**, plus TPS5430DDAR (C9864) and
+  L2 = C354622 (22µH), where `Drone_PCB_FC_LCSC_BOM.csv` says BY25Q128ESSIG
+  (128 Mbit), TPS5450 and 15µH C83374. Flash resolved below; **TPS5430-vs-5450
+  and the 22µH-vs-15µH inductor are still open** — confirm which was actually
+  ordered before populating the buck.
+- **Also fixed:** the LCSC BOM had the IMU as U6; schematic, PCB and production
+  files all say **U7**. Corrected in the BOM.
+- **Next:** bridge JP10, confirm the buck parts, then bench bring-up per
+  BUILD.md §4.
+
+## 2026-07-30 — Blackbox flash is 2 MB, not 16 MB (wrong part ordered) — keeping it
+
+- **What happened:** U3 as ordered and fitted is a **GigaDevice GD25Q16E
+  (C2904431) — 16 Mbit = 2 MB**. The BOM specified a 128 Mbit part
+  (BY25Q128ESSIG, C22471255). Wrong part made it onto the order; caught while
+  reconciling the three BOM files during the BMI270 doc pass.
+- **No firmware change required** — verified against Betaflight master, not
+  assumed. `USE_FLASH_W25Q128FV` is not a chip selector; it's only a gate that
+  pulls in the generic `m25p16` driver via `common_post.h`:
+  `#if (USE_FLASH_W25M512 || USE_FLASH_W25Q128FV || USE_FLASH_PY25Q128HA) && !USE_FLASH_M25P16 -> define USE_FLASH_M25P16`.
+  That driver detects chips by **JEDEC ID at runtime**, and ours is in its
+  table: `{ 0xC84015, 104, 50, 32, 256 }` — GigaDevice GD25Q16E, 32 sectors ×
+  256 pages × 256 B = **2,097,152 bytes**. Configurator will report 2 MB and
+  that is correct behaviour, not a fault.
+- **Decision: keep the 2 MB part.** The cost is log duration, not function.
+  At ~30 KB/s per kHz of logging rate: 3.2 kHz → ~22 s (unusable), 1.6 kHz →
+  ~44 s, **800 Hz → ~87 s**. Tuning runs are 30–60 s regardless, and 800 Hz
+  still resolves everything below 400 Hz, which is where the motor/frame noise
+  peaks that filter tuning depends on actually live. The real loss is the
+  ability to log a whole pack.
+- **Mandatory bring-up step added:** `set blackbox_sample_rate = 1/4`. Without
+  it the log fills in ~22 seconds. Added to BUILD.md §4 as step 12.
+- Documented the full rate table plus field-disable advice (no GPS/mag/baro/RSSI
+  on this board) in `betaflight_target/BUILD.md`, and the reasoning inline in
+  `config.h` next to the misleading-but-correct `USE_FLASH_W25Q128FV` define so
+  nobody "fixes" it later.
+- **Upgrade path if 90 s stops being enough:** GD25Q128E (C2758105) or
+  BY25Q128ES (C22471255). Both are in the same `m25p16` JEDEC table, both
+  SOIC-8 208mil with identical pinout — hot-air swap, no firmware change.
+
 ---
 
 ### Log format (for future entries)

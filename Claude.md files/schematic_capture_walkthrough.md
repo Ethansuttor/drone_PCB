@@ -131,28 +131,56 @@ Place the **JST SH 1.0 10-pin** (SM10B-SRSS-TB, C160409, `drone_lib`). **Status 
 
 ---
 
-## Block 6 — IMU (ICM-42605) — **power wired 2026-06-26; SPI logic still TODO**
-Place **ICM-42605** (C2655099, `drone_lib`). LGA-14. Datasheet pin map (Table 9): 1 AP_SDO/SDO · 4 INT1 · 5 VDDIO · 6 GND · 7 RESV · 8 VDD · 9 INT2/FSYNC · 12 AP_CS · 13 SCLK · 14 SDI/MOSI · 2/3/10/11 RESV.
+## Block 6 — IMU (Bosch BMI270) — **DONE** (re-done 2026-07-30, was ICM-42605)
 
-**Power (DONE) — split rails on purpose:**
-- `VDD` (pin 8) → **`+3V3_IMU`** (quiet TLV733P rail), with **0.1µF + 2.2µF** X7R at the pin (datasheet BoM C1/C2). This is the noise-sensitive analog/MEMS supply.
-- `VDDIO` (pin 5) → **`+3V3`** (main logic rail — NOT the quiet rail), with **10nF** X7R at the pin (datasheet BoM C3). VDDIO carries digital I/O switching noise and sets the SPI logic level, so it rides the host rail; keeping it off `+3V3_IMU` protects the gyro noise floor. *(Change from earlier "both on +3V3_IMU" plan — see context_v3 2026-06-26 note.)*
-- `GND` (pin 6) → `GND`. `RESV` **pin 7 → GND (mandatory** per datasheet). `RESV` pins 2, 3, 10, 11 → `GND` (datasheet allows NC or GND; GND is cleanest over the L2 pour). `INT2/FSYNC` (pin 9) → `GND` (FSYNC unused).
+Place **BMI270** (C2836813, `drone_lib`), footprint `LGA-14_L3.0-W2.5-P0.50-BR`.
+Datasheet pin map (rev 1.3 Table 22, p.145): 1 SDO · 2 ASDx · 3 ASCx · 4 INT1 ·
+5 VDDIO · 6 GNDIO · 7 GND · 8 VDD · 9 INT2 · 10 OCSB · 11 OSDO · 12 CSB ·
+13 SCx · 14 SDx.
 
-**SPI1 logic (TODO):**
-- `SCLK` (13) → `PA5`, `SDO`/MISO (1) → `PA6`, `SDI`/MOSI (14) → `PA7`.
-- `AP_CS` (12) → `PC4`, **plus a 10k pull-up from PC4 to `+3V3_IMU`** (keeps CS high during boot/DFU so the IMU isn't selected accidentally).
+> ⚠ **Do not reuse the 426xx wiring from an earlier revision of this doc.** The
+> BMI270 shares only the package *outline* — pin functions are completely
+> different, and two of the old habits are now actively wrong (see the strapping
+> bullet below).
+
+**Power — split rails, unchanged from the 42605 design:**
+- `VDD` (pin 8) → **`+3V3_IMU`** (quiet TLV733P rail, via **JP10**), **100nF** at the pin. Noise-sensitive analog/MEMS supply. Range 1.71–3.6V.
+- `VDDIO` (pin 5) → **`+3V3`** (main logic rail — NOT the quiet rail), **100nF** at the pin. Carries digital I/O switching noise and sets the SPI logic level, so it rides the host rail. Range 1.2–3.6V.
+- **Decoupling is 100nF × 2 only** — the 2.2µF/0.1µF/10nF arrangement was a 426xx datasheet requirement and does not apply.
+- `GNDIO` (6) and `GND` (7) → `GND`.
+
+**Unused-pin strapping — different from the 42605, get this right:**
+- `ASDx` (2) and `ASCx` (3) → **`VDDIO`**. Datasheet note ** is explicit: if the secondary interface is unused these may go to VDDIO or be left open, but **do not connect to GND**. (The 42605's RESV-to-GND habit would be a mistake here.)
+- `INT2` (9), `OCSB` (10), `OSDO` (11) → **do not connect**. Note *** allows OCSB/OSDO to GND only if `IF_CONF.ois_en = 0`; leaving them open is safer.
+- There is **no** mandatory-ground RESV pin on this part.
+
+**SPI1 logic:**
+- `SCx` (13) → `PA5`, `SDO` (1) → `PA6`/MISO, `SDx` (14) → `PA7`/MOSI.
+- `CSB` (12) → `PC4`, **plus a 10k pull-up to `+3V3`** (= VDDIO). Holds CS high through boot/DFU. Note the pull-up is to the *host* rail, matching the SPI logic level.
 - `INT1` (4) → `PC3` (EXTI3) — keep this trace short in layout.
-- SPI clock ≤24MHz (datasheet Table 6): use SPI1 prescaler /4 = 21MHz, never /2 (42MHz exceeds rating).
+- **SPI clock ≤10MHz** for the BMI270 (Betaflight's `BMI270_MAX_SPI_CLK_HZ`). This is a real tightening from the 42605's 24MHz — the old "/4 = 21MHz" advice is no longer valid.
+- Protocol note: the BMI270 powers up in **I2C** mode and only switches to SPI after seeing a **rising edge on CSB** (datasheet §"protocol selection"). The 10k pull-up holds CSB high through POR; Betaflight's driver toggles CS to make the transition. Only matters if you drive the chip from bare STM32 code.
 - Layout note (not schematic): IMU dead-center, axes aligned to the frame, solid ground under it.
 
-## Block 7 — Blackbox flash (W25Q128 on SPI2)
-Place **W25Q128JVSIQ** (C97521, `drone_lib`, SOIC-8). Powered from `+3V3`.
+## Block 7 — Blackbox flash (SPI2) — **as-fitted part is GD25Q16E, 2 MB**
+Place **GD25Q16E** (C2904431, SOIC-8 208mil). Powered from `+3V3`.
+
+> ⚠ **Two corrections vs. earlier revisions of this doc:**
+> 1. The part is **not** a W25Q128JVSIQ (C97521, superseded on MOQ) and **not**
+>    the BY25Q128ESSIG the BOM specified. The chip actually ordered and fitted is
+>    a **GigaDevice GD25Q16E — 16 Mbit = 2 MB, one eighth the intended capacity.**
+>    Kept deliberately; see `VERIFIED_PINOUT.md` § Blackbox flash.
+> 2. **MISO is on `PC2`, not `PB14`.** The old line below was wrong and is
+>    contradicted by the as-built schematic.
 
 - `VCC` → `+3V3` with **100nF**. `GND` → `GND`.
-- SPI2: `CLK` → `PB13`, `DO`/MISO → `PB14`, `DI`/MOSI → `PB15`.
+- SPI2: `CLK` → `PB13`, `DO`/MISO → **`PC2`**, `DI`/MOSI → `PB15`.
 - `CS` → `PB12`.
 - `/WP` and `/HOLD` → tie to `+3V3` (disabled) unless you have a reason not to.
+- Footprint is SOIC-8 208mil, shared by every candidate part (W25Q128, BY25Q128ES,
+  GD25Q16E, GD25Q128E) — so a capacity upgrade is a hot-air swap, no layout change.
+- Betaflight needs no code change for the 2 MB part: `USE_FLASH_W25Q128FV` only
+  gates the generic `m25p16` driver, which detects by JEDEC ID at runtime.
 
 ---
 

@@ -46,8 +46,17 @@
  * ------------------------------------------------------------------------- */
 #define USE_GYRO
 #define USE_ACC
-#define USE_GYRO_SPI_BMI270
-#define USE_ACC_SPI_BMI270
+/* CORRECTED 2026-08-19 (build fix): the driver define is the COMBINED
+ * `USE_ACCGYRO_BMI270`, NOT the split `USE_GYRO_SPI_BMI270` /
+ * `USE_ACC_SPI_BMI270` pair. Betaflight treats the BMI270 as a single accgyro
+ * part and `common_post.h` only accepts `USE_ACCGYRO_BMI270` in its
+ * device-presence check. With the split names the build dies on EVERY source
+ * file with:
+ *     #error At least one USE_ACC device definition required
+ *     #error At least one USE_GYRO device definition required
+ * which reads as though the config was ignored entirely. It wasn't — the
+ * names simply were not ones Betaflight recognises. */
+#define USE_ACCGYRO_BMI270
 
 /* ---------------------------------------------------------------------------
  * Blackbox flash — SPI2.
@@ -118,22 +127,40 @@
 #define UART1_TX_PIN         PA9
 #define UART1_RX_PIN         PA10
 
-/* ADC — schematic-verified: CURRENT sense is on PA2 (net CurrentM1, D1 zener).
- * PA1 was allocated in CubeMX for battery-voltage sense, but the schematic
- * shows it at/near no-connect, so VBAT sensing may not exist on this board.
- * >>> VERIFY PA1: if there's no divider, delete ADC_VBAT_PIN — you'll have
- * current but no pack-voltage reading. */
-#define ADC_CURR_PIN         PA2        // ADC1_IN2 — confirmed
-#define ADC_VBAT_PIN         PA1        // >>> VERIFY: may be no-connect (no vbat sense)
+/* ADC — both channels confirmed against the as-fabricated PCB, 2026-08-18.
+ *
+ * CURRENT: ESC current -> R5 1k -> node (D1 BZT52C3V3 clamp to GND)
+ *          -> jumper CurrentM1 -> U4 pad 16 = PA2.
+ *
+ * VBAT: RESOLVED — the divider DOES exist. The old ">>> VERIFY / may be
+ *       no-connect" warning is closed.
+ *          +BATT_after -> R6 100k -> node -> R13 10k -> GND
+ *                                     |-- C29 100nF -> GND
+ *                                     \-- jumper JP8 -> U4 pad 15 = PA1
+ *       Ratio is exactly 11:1, so 16.8 V full charge puts 1.53 V on PA1 — safe.
+ *       Betaflight's default vbat_scale = 110 already matches an 11:1 divider,
+ *       so no scale change should be needed; confirm against a bench supply.
+ *
+ * BOTH pins sit behind OPEN solder jumpers. Bridge CurrentM1 and JP8 or the
+ * readings stay at zero no matter what the firmware says. */
+#define ADC_CURR_PIN         PA2        // ADC1_IN2 — confirmed (behind CurrentM1)
+#define ADC_VBAT_PIN         PA1        // ADC1_IN1 — confirmed, 11:1 divider (behind JP8)
 #define ADC_INSTANCE         ADC1
 
-/* Status LED — schematic shows the LED on PC13 (via R19 330Ω), NOT PB8 (PB8 is
- * unconnected on this board). WARNING: PC13 is in the F405 backup/power-switch
- * domain and can only sink ~3 mA (DS8626), so the LED will be dim but works. */
-#define LED0_PIN             PC13
+/* Status LED — CORRECTED 2026-08-18 from the as-fabricated PCB: the chain is
+ * +3V3 -> D6 anode -> D6 cathode -> R19 330R -> U4 pad 3 = **PC14**.
+ * U4 pad 2 (PC13) is physically UNCONNECTED on this board — the earlier PC13
+ * value would have blinked a pin that goes nowhere and looked like a dead MCU.
+ * PC14 is OSC32_IN, but no LSE crystal is fitted so it is free as GPIO.
+ * Same backup-domain caveat applies: ~3 mA sink limit (DS8626), and the pin
+ * drops ~0.3 V inside the power switch, so D6 is dim and noticeably dimmer
+ * than the always-on power LED D5. That is expected, not a fault. */
+#define LED0_PIN             PC14
 
-/* Beeper — PC5 GPIO driving a 2N7002 low-side switch + active buzzer (D8 1N914
- * flyback, R20 10k). Low-side FET => pin HIGH = buzzer ON = active-high, so
+/* Beeper — PC5 GPIO driving a 2N7000 (TO-92 THT) low-side switch + active buzzer (D8 1N914
+ * flyback, R20 10k gate pull-down). NOTE: Q2, D8 and BZ1 were NOT ordered —
+ * the beeper is unpopulated until those arrive. Low-side FET => pin HIGH =
+ * buzzer ON = active-high, so
  * BEEPER_INVERTED is intentionally NOT defined. >>> VERIFY at bring-up. */
 #define BEEPER_PIN           PC5
 // #define BEEPER_INVERTED
@@ -164,6 +191,36 @@
  * ------------------------------------------------------------------------- */
 #define SYSTEM_HSE_MHZ       8
 
+/* ---------------------------------------------------------------------------
+ * ADC DMA — DO NOT REMOVE. Found the hard way at bring-up, 2026-08-19.
+ *
+ * On the F405, ADC1's regular-conversion DMA defaults to DMA2 Stream 0
+ * Channel 0. SPI1_RX (the gyro) defaults to DMA2 Stream 0 Channel 3 — the SAME
+ * STREAM. SPI1 is allocated first and wins. adc_stm32f4xx.c then does:
+ *
+ *     if (!dmaAllocate(dmaGetIdentifier(adc.dmaResource), OWNER_ADC, 0)) {
+ *         return;
+ *     }
+ *
+ * i.e. it SILENTLY gives up. No error, no log line, no warning at boot. The
+ * ADC regular sequence never runs and every external ADC channel reads a hard
+ * zero forever — VBAT and CURRENT both.
+ *
+ * WHY THIS IS SO HARD TO SPOT: Vref and core temperature keep working, because
+ * on F4 those are read through INJECTED channels triggered by software
+ * polling, which need no DMA at all. So `status` shows a healthy
+ * "Vref=3.28V, Core temp=39degC" while "Voltage: 0 * 0.01V" sits right under
+ * it. Everything looks alive. You will blame the solder jumper, the divider,
+ * the resistors and the ADC pin mapping before you blame DMA. All of those
+ * were measured good on this board while the reading stayed at zero.
+ *
+ * Option 1 moves ADC1 to DMA2 Stream 4 Channel 0, clear of SPI1.
+ *
+ * Equivalent runtime fix (does NOT survive a full-chip-erase reflash, which is
+ * why it is pinned here):   dma ADC 1 1     then   save
+ * ------------------------------------------------------------------------- */
+#define ADC1_DMA_OPT         1
+
 /* Gyro orientation — depends on how the chip faces vs the frame front.
  * >>> VERIFY at bring-up: watch the Setup-tab 3D model, adjust until it tracks.
  * This value is a PLACEHOLDER and is very likely wrong since the IMU changed:
@@ -174,6 +231,10 @@
 
 #define DEFAULT_BLACKBOX_DEVICE      BLACKBOX_DEVICE_FLASH
 #define DEFAULT_CURRENT_METER_SOURCE CURRENT_METER_ADC
+/* Bench-measured 2026-08-19: pack 15.58 V read as 15.45 V at the stock
+ * vbat_scale of 110, i.e. the real divider is 11.13:1 rather than 11.00:1
+ * (resistor tolerance). Trimmed in CLI with `set vbat_scale = 111` + `save`.
+ * Re-check against a meter if R6 or R13 is ever replaced. */
 #define DEFAULT_VOLTAGE_METER_SOURCE VOLTAGE_METER_ADC
 
 /* Receiver defaults — i-BUS on UART1. Still enable "Serial RX" for UART1 in

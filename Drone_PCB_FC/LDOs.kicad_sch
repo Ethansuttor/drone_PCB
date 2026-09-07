@@ -1749,6 +1749,12 @@
 		(uuid "0827ad50-89d0-4bc0-a5f4-9d38a412aaab")
 	)
 	(junction
+		(at 134.62 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "28abaa16-ca77-47ff-9dbe-dca75eeca94e")
+	)
+	(junction
 		(at 121.92 77.47)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1795,12 +1801,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b4f4bd15-ce8f-4b26-943d-5e3eb2924627")
-	)
-	(junction
-		(at 134.62 92.71)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d11f08e8-5d57-4c22-9fa7-32ad05fa79f9")
 	)
 	(wire
 		(pts
@@ -2034,16 +2034,6 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 92.71) (xy 134.62 95.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6aa516e7-8730-4d35-9e54-99ad0516f157")
-	)
-	(wire
-		(pts
 			(xy 49.53 135.89) (xy 53.34 135.89)
 		)
 		(stroke
@@ -2151,6 +2141,16 @@
 			(type default)
 		)
 		(uuid "9aeae16b-8677-4de5-8802-a80c5d5f1961")
+	)
+	(wire
+		(pts
+			(xy 140.97 92.71) (xy 134.62 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9be8a391-c4f1-4e04-98d3-aeec05968dc6")
 	)
 	(wire
 		(pts
@@ -2505,7 +2505,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 134.62 95.25 0)
+		(at 140.97 92.71 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2516,7 +2516,7 @@
 		(fields_autoplaced yes)
 		(uuid "0fca32e7-f5dd-4a53-8ebb-3ac88891b79c")
 		(property "Reference" "#PWR025"
-			(at 134.62 101.6 0)
+			(at 140.97 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2527,7 +2527,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 134.62 100.33 0)
+			(at 140.97 97.79 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2537,7 +2537,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 134.62 95.25 0)
+			(at 140.97 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2548,7 +2548,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 134.62 95.25 0)
+			(at 140.97 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2559,7 +2559,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 134.62 95.25 0)
+			(at 140.97 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

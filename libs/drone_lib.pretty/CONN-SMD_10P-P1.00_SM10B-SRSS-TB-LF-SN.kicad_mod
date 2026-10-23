@@ -34,7 +34,7 @@
 	(fp_line (start 6.00 -1.41) (end 6.00 2.84) (layer F.CrtYd) (width 0.05))
 	(fp_line (start 6.00 2.84) (end -6.00 2.84) (layer F.CrtYd) (width 0.05))
 	(fp_line (start -6.00 2.84) (end -6.00 -1.41) (layer F.CrtYd) (width 0.05))
-	(model "D:/Drone/drone_PCB/libs/drone_lib.3dshapes/CONN-SMD_SH1.00-WS-10P.wrl"
+	(model "${KIPRJMOD}/../libs/drone_lib.3dshapes/CONN-SMD_SH1.00-WS-10P.wrl"
 		(offset (xyz 0.000 0.000 0.000))
 		(scale (xyz 1 1 1))
 		(rotate (xyz 0 0 0))

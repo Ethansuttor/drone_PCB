@@ -1,0 +1,393 @@
+diff --git a/src/main/cli/cli.c b/src/main/cli/cli.c
+index f5de8ebeb..03f675224 100644
+--- a/src/main/cli/cli.c
++++ b/src/main/cli/cli.c
+@@ -2452,11 +2452,80 @@ static void cliSdInfo(const char *cmdName, char *cmdline)
+ #endif
+ 
+ #ifdef USE_FLASH_CHIP
++
++#if defined(USE_FLASH_DEBUG_PROBE) && defined(USE_FLASH_SPI)
++static const char * const flashProbeStageNames[FLASH_PROBE_STAGE_COUNT] = {
++    "NOT_RUN        flashSpiInit() never entered",
++    "NO_CS_TAG      flashConfig->csTag == 0",
++    "CS_NOT_FREE    CS pin already owned, bus never touched",
++    "NO_BUS_INSTANCE spiSetBusInstance() failed, bus never pin-configured",
++    "TRANSACTED     a transfer was issued onto the bus",
++};
++
++static void cliFlashPrintPin(const char *label, ioTag_t tag)
++{
++    if (tag) {
++        cliPrintf("%s=%c%02d ", label, IO_GPIOPortIdxByTag(tag) + 'A', IO_GPIOPinIdxByTag(tag));
++    } else {
++        cliPrintf("%s=NONE ", label);
++    }
++}
++
++static void cliFlashProbeReport(void)
++{
++    const flashProbeDebug_t *probe = &flashProbeDebug;
++
++    cliPrintLinef("source: %s", probe->isReprobe ? "flash_info probe (re-run now)" : "boot");
++
++    cliPrintLinef("stage: %u %s", probe->stage,
++            (probe->stage < FLASH_PROBE_STAGE_COUNT) ? flashProbeStageNames[probe->stage] : "?");
++
++    cliPrintf("cs: ");
++    cliFlashPrintPin("pin", probe->csTag);
++    cliPrintLinef("freeOrPreinit=%u owner=%s", probe->csFreeOrPreinit, ownerNames[probe->csOwner]);
++
++    cliPrintLinef("bus: flash_spi_bus=%u spidev_idx=%d", probe->spiDeviceCfg, probe->spiDeviceIdx);
++
++    cliPrintf("resolved pins: ");
++    cliFlashPrintPin("sck", probe->pinSck);
++    cliFlashPrintPin("sdi", probe->pinMiso);
++    cliFlashPrintPin("sdo", probe->pinMosi);
++    cliPrintLinef("regbase=0x%08x", probe->spiRegBase);
++
++    if (probe->spiRegBase == 0) {
++        cliPrintLine("  ** spiPinConfigure() did not match all three pins. **");
++        cliPrintLine("  ** spiInitDevice() returned early, peripheral never clocked or enabled. **");
++    }
++
++    cliPrintLinef("spi regs: cr1=0x%04x cr2=0x%04x sr=0x%04x", probe->cr1, probe->cr2, probe->sr);
++    cliPrintLinef("  spe=%u mstr=%u br=%u", (probe->cr1 >> 6) & 1, (probe->cr1 >> 2) & 1, (probe->cr1 >> 3) & 7);
++
++    cliPrintLinef("sdi pin: moder=%u (2=alternate function) af=%u (5=SPI2 on F4)",
++            probe->misoModer, probe->misoAf);
++
++    cliPrintLinef("rdid: issued=%u raw=%02x %02x %02x %02x",
++            probe->readIssued, probe->rawId[0], probe->rawId[1], probe->rawId[2], probe->rawId[3]);
++}
++#endif // USE_FLASH_DEBUG_PROBE && USE_FLASH_SPI
++
+ static void cliFlashInfo(const char *cmdName, char *cmdline)
+ {
+     UNUSED(cmdName);
+     UNUSED(cmdline);
+ 
++#if defined(USE_FLASH_DEBUG_PROBE) && defined(USE_FLASH_SPI)
++    if (strcasecmp(cmdline, "probe") == 0) {
++        const bool detected = flashReprobe();
++        cliFlashProbeReport();
++        cliPrintLinef("result: %s", detected ? "chip identified" : "no chip identified");
++        cliPrintLinefeed();
++    } else if (strcasecmp(cmdline, "debug") == 0) {
++        cliFlashProbeReport();
++        cliPrintLinefeed();
++        return;
++    }
++#endif
++
+     const flashGeometry_t *layout = flashGetGeometry();
+ 
+     cliPrintLinef("Flash sectors=%u, sectorSize=%u, pagesPerSector=%u, pageSize=%u, totalSize=%u JEDEC ID=0x%08x",
+@@ -6519,7 +6588,11 @@ const clicmd_t cmdTable[] = {
+ #ifdef USE_FLASHFS
+     CLI_COMMAND_DEF("flash_erase", "erase flash chip", NULL, cliFlashErase),
+ #endif
++#if defined(USE_FLASH_DEBUG_PROBE) && defined(USE_FLASH_SPI)
++    CLI_COMMAND_DEF("flash_info", "show flash chip info", "[debug|probe]", cliFlashInfo),
++#else
+     CLI_COMMAND_DEF("flash_info", "show flash chip info", NULL, cliFlashInfo),
++#endif
+ #if defined(USE_FLASH_TOOLS) && defined(USE_FLASHFS)
+     CLI_COMMAND_DEF("flash_read", NULL, "<length> <address>", cliFlashRead),
+     CLI_COMMAND_DEF("flash_scan", "scan flash device for errors", NULL, cliFlashVerify),
+diff --git a/src/main/drivers/bus_spi.c b/src/main/drivers/bus_spi.c
+index 4f03a26ac..8641eb4f5 100644
+--- a/src/main/drivers/bus_spi.c
++++ b/src/main/drivers/bus_spi.c
+@@ -100,6 +100,22 @@ SPI_TypeDef *spiInstanceByDevice(SPIDevice device)
+     return spiDevice[device].dev;
+ }
+ 
++#ifdef USE_FLASH_DEBUG_PROBE
++void spiGetResolvedPins(SPIDevice device, ioTag_t *sck, ioTag_t *miso, ioTag_t *mosi)
++{
++    if ((device < 0) || (device >= SPIDEV_COUNT)) {
++        *sck = IO_TAG_NONE;
++        *miso = IO_TAG_NONE;
++        *mosi = IO_TAG_NONE;
++        return;
++    }
++
++    *sck = spiDevice[device].sck;
++    *miso = spiDevice[device].miso;
++    *mosi = spiDevice[device].mosi;
++}
++#endif
++
+ bool spiInit(SPIDevice device)
+ {
+     switch (device) {
+diff --git a/src/main/drivers/bus_spi.h b/src/main/drivers/bus_spi.h
+index 8d8d504f1..d74ba8770 100644
+--- a/src/main/drivers/bus_spi.h
++++ b/src/main/drivers/bus_spi.h
+@@ -127,6 +127,15 @@ void spiSetClkPhasePolarity(const extDevice_t *dev, bool leadingEdge);
+ // Enable/disable DMA on a specific device. Enabled by default.
+ void spiDmaEnable(const extDevice_t *dev, bool enable);
+ 
++#ifdef USE_FLASH_DEBUG_PROBE
++// Bring-up instrumentation. Reports the pins spiPinConfigure() actually matched
++// against spiHardware[] for this bus. spiInitDevice() returns silently when
++// spiDevice[dev].dev is NULL, which happens whenever any one of the three pins
++// failed to match, so an all-NONE result here means the peripheral was never
++// clocked, never AF-mapped and never enabled.
++void spiGetResolvedPins(SPIDevice device, ioTag_t *sck, ioTag_t *miso, ioTag_t *mosi);
++#endif
++
+ // DMA transfer setup and start
+ void spiSequence(const extDevice_t *dev, busSegment_t *segments);
+ // Wait for DMA completion
+diff --git a/src/main/drivers/flash.c b/src/main/drivers/flash.c
+index 958cb5f54..d632dd5fd 100644
+--- a/src/main/drivers/flash.c
++++ b/src/main/drivers/flash.c
+@@ -38,6 +38,7 @@
+ #include "drivers/bus_quadspi.h"
+ #include "drivers/bus_octospi.h"
+ #include "drivers/io.h"
++#include "drivers/io_impl.h"
+ #include "drivers/time.h"
+ #include "drivers/system.h"
+ 
+@@ -270,23 +271,101 @@ static bool flashQuadSpiInit(const flashConfig_t *flashConfig)
+ #endif  // USE_FLASH_QUADSPI
+ 
+ #ifdef USE_FLASH_SPI
+-static bool flashSpiInit(const flashConfig_t *flashConfig)
++
++#ifdef USE_FLASH_DEBUG_PROBE
++flashProbeDebug_t flashProbeDebug;
++
++// Snapshot everything about the bus that does not depend on a device answering.
++// Called after spiSetBusInstance() succeeds, so spiDevice[] is whatever
++// spiPinConfigure() left it as at boot.
++static void flashProbeSnapshotBus(const flashConfig_t *flashConfig)
++{
++    const SPIDevice spiDev = SPI_CFG_TO_DEV(flashConfig->spiDevice);
++
++    if (spiDev == SPIINVALID) {
++        return;
++    }
++
++    ioTag_t sck = IO_TAG_NONE, miso = IO_TAG_NONE, mosi = IO_TAG_NONE;
++    spiGetResolvedPins(spiDev, &sck, &miso, &mosi);
++    flashProbeDebug.pinSck = sck;
++    flashProbeDebug.pinMiso = miso;
++    flashProbeDebug.pinMosi = mosi;
++
++    SPI_TypeDef *reg = spiInstanceByDevice(spiDev);
++    flashProbeDebug.spiRegBase = (uint32_t)reg;
++
++    if (reg) {
++        flashProbeDebug.cr1 = reg->CR1;
++        flashProbeDebug.cr2 = reg->CR2;
++        flashProbeDebug.sr = reg->SR;
++    }
++
++    // Decode the MISO pin directly out of GPIO. If MODER is not 2 (alternate
++    // function) or the AF nibble is not 5, SPI2 is not connected to the pin no
++    // matter how healthy the pin and the net measure.
++    const IO_t misoIo = IOGetByTag(miso);
++    if (misoIo) {
++        GPIO_TypeDef *gpio = IO_GPIO(misoIo);
++        const int pinIdx = IO_GPIOPinIdx(misoIo);
++        if (gpio && (pinIdx >= 0)) {
++            flashProbeDebug.misoModer = (gpio->MODER >> (pinIdx * 2)) & 0x3;
++            flashProbeDebug.misoAf = (gpio->AFR[pinIdx >> 3] >> ((pinIdx & 7) * 4)) & 0xf;
++        }
++    }
++}
++#endif // USE_FLASH_DEBUG_PROBE
++
++static bool flashSpiInit(const flashConfig_t *flashConfig, bool reprobe)
+ {
+     bool detected = false;
++
++#ifndef USE_FLASH_DEBUG_PROBE
++    UNUSED(reprobe);
++#else
++    flashProbeDebug.stage = FLASH_PROBE_NOT_RUN;
++    flashProbeDebug.isReprobe = reprobe ? 1 : 0;
++    flashProbeDebug.csTag = flashConfig->csTag;
++    flashProbeDebug.spiDeviceCfg = flashConfig->spiDevice;
++    flashProbeDebug.spiDeviceIdx = SPI_CFG_TO_DEV(flashConfig->spiDevice);
++#endif
+     // Read chip identification and send it to device detect
+     dev = &devInstance;
+ 
+     if (flashConfig->csTag) {
+         dev->busType_u.spi.csnPin = IOGetByTag(flashConfig->csTag);
+     } else {
++#ifdef USE_FLASH_DEBUG_PROBE
++        flashProbeDebug.stage = FLASH_PROBE_NO_CS_TAG;
++#endif
+         return false;
+     }
+ 
++#ifdef USE_FLASH_DEBUG_PROBE
++    flashProbeDebug.csOwner = IOGetOwner(dev->busType_u.spi.csnPin);
++    flashProbeDebug.csFreeOrPreinit = IOIsFreeOrPreinit(dev->busType_u.spi.csnPin) ? 1 : 0;
++#endif
++
+     if (!IOIsFreeOrPreinit(dev->busType_u.spi.csnPin)) {
++#ifdef USE_FLASH_DEBUG_PROBE
++        // On a re-probe the pin is legitimately still ours from boot.
++        if (!(reprobe && (IOGetOwner(dev->busType_u.spi.csnPin) == OWNER_FLASH_CS))) {
++            flashProbeDebug.stage = FLASH_PROBE_CS_NOT_FREE;
++            return false;
++        }
++#else
+         return false;
++#endif
+     }
+ 
+     if (!spiSetBusInstance(dev, flashConfig->spiDevice)) {
++#ifdef USE_FLASH_DEBUG_PROBE
++        // spiSetBusInstance() only fails here when spiInstanceByDevice() is
++        // NULL, i.e. spiPinConfigure() never matched all three pins and
++        // spiInitDevice() returned without enabling the peripheral.
++        flashProbeDebug.stage = FLASH_PROBE_NO_BUS_INSTANCE;
++        flashProbeSnapshotBus(flashConfig);
++#endif
+         return false;
+     }
+ 
+@@ -311,7 +390,20 @@ static bool flashSpiInit(const flashConfig_t *flashConfig)
+      */
+     uint8_t readIdResponse[4] = { 0 };
+ 
++#ifdef USE_FLASH_DEBUG_PROBE
++    // Boot runs this before spiInitBusDMA(), so the boot probe is polled. Force
++    // polled on a re-probe too, otherwise the two are not comparable.
++    if (reprobe) {
++        spiDmaEnable(dev, false);
++    }
++
++    flashProbeSnapshotBus(flashConfig);
++    flashProbeDebug.stage = FLASH_PROBE_TRANSACTED;
++    flashProbeDebug.readIssued = spiReadRegBufRB(dev, FLASH_INSTRUCTION_RDID, readIdResponse, sizeof(readIdResponse)) ? 1 : 0;
++    memcpy(flashProbeDebug.rawId, readIdResponse, sizeof(flashProbeDebug.rawId));
++#else
+     spiReadRegBuf(dev, FLASH_INSTRUCTION_RDID, readIdResponse, sizeof(readIdResponse));
++#endif
+ 
+     // Manufacturer, memory type, and capacity
+     uint32_t jedecID = (readIdResponse[0] << 16) | (readIdResponse[1] << 8) | (readIdResponse[2]);
+@@ -369,7 +461,7 @@ bool flashDeviceInit(const flashConfig_t *flashConfig)
+     bool useSpi = (SPI_CFG_TO_DEV(flashConfig->spiDevice) != SPIINVALID);
+ 
+     if (useSpi) {
+-        haveFlash = flashSpiInit(flashConfig);
++        haveFlash = flashSpiInit(flashConfig, false);
+     }
+ #endif
+ 
+@@ -628,4 +720,25 @@ int flashPartitionCount(void)
+ {
+     return flashPartitions;
+ }
++
++#if defined(USE_FLASH_DEBUG_PROBE) && defined(USE_FLASH_SPI)
++bool flashReprobe(void)
++{
++    memset(&flashProbeDebug, 0, sizeof(flashProbeDebug));
++
++    const bool detected = flashSpiInit(flashConfig(), true);
++
++    if (detected && flashDevice.vTable && flashDevice.vTable->configure) {
++        flashDevice.vTable->configure(&flashDevice, 0);
++    }
++
++    if (detected) {
++        memset(&flashPartitionTable, 0x00, sizeof(flashPartitionTable));
++        flashPartitions = 0;
++        flashConfigurePartitions();
++    }
++
++    return detected;
++}
++#endif
+ #endif // USE_FLASH_CHIP
+diff --git a/src/main/drivers/flash.h b/src/main/drivers/flash.h
+index da75304bb..02bfc9874 100644
+--- a/src/main/drivers/flash.h
++++ b/src/main/drivers/flash.h
+@@ -110,3 +110,57 @@ flashPartition_t *flashPartitionFindByType(flashPartitionType_e type);
+ const flashPartition_t *flashPartitionFindByIndex(uint8_t index);
+ const char *flashPartitionGetTypeName(flashPartitionType_e type);
+ int flashPartitionCount(void);
++
++#if defined(USE_FLASH_DEBUG_PROBE) && defined(USE_FLASH_SPI)
++/*
++ * ETHANF405 blackbox-flash bring-up instrumentation.
++ *
++ * flashSpiInit() has three silent `return false` exits and no logging, so a
++ * probe that bailed before touching the bus is indistinguishable from one that
++ * transacted and clocked in zeros. flash_info prints geometry cached from boot
++ * and re-probes nothing, so it cannot tell them apart either.
++ *
++ * This records which exit was taken, what spiPinConfigure() resolved for the
++ * bus, the SPI peripheral and MISO pin register state, and the raw RDID bytes.
++ */
++typedef enum {
++    FLASH_PROBE_NOT_RUN = 0,        // flashSpiInit() was never entered
++    FLASH_PROBE_NO_CS_TAG,          // flashConfig->csTag == 0
++    FLASH_PROBE_CS_NOT_FREE,        // IOIsFreeOrPreinit(CS) false, another owner holds it
++    FLASH_PROBE_NO_BUS_INSTANCE,    // spiSetBusInstance() false, bus never pin-configured
++    FLASH_PROBE_TRANSACTED,         // a transfer was actually issued onto the bus
++    FLASH_PROBE_STAGE_COUNT
++} flashProbeStage_e;
++
++typedef struct flashProbeDebug_s {
++    uint8_t  stage;             // flashProbeStage_e, how far flashSpiInit() got
++    uint8_t  isReprobe;         // 0 = record left by boot, 1 = by "flash_info probe"
++
++    uint8_t  csTag;             // flashConfig->csTag
++    uint8_t  spiDeviceCfg;      // flashConfig->spiDevice, 1-based, 0 = none
++    int8_t   spiDeviceIdx;      // SPI_CFG_TO_DEV(), 0-based, -1 = SPIINVALID
++
++    uint8_t  csOwner;           // resourceOwner_e holding the CS pin at probe time
++    uint8_t  csFreeOrPreinit;
++
++    uint8_t  pinSck;            // what spiPinConfigure() matched for this bus
++    uint8_t  pinMiso;
++    uint8_t  pinMosi;
++    uint32_t spiRegBase;        // spiInstanceByDevice(), 0 = bus never configured
++
++    uint32_t cr1;               // SPI peripheral state at probe time
++    uint32_t cr2;
++    uint32_t sr;
++    uint8_t  misoModer;         // MODER field for the MISO pin, 2 = alternate function
++    uint8_t  misoAf;            // AFR nibble for the MISO pin, 5 = SPI2 on F4
++
++    uint8_t  readIssued;        // spiReadRegBufRB() returned true
++    uint8_t  rawId[4];          // raw RDID bytes off the wire
++} flashProbeDebug_t;
++
++extern flashProbeDebug_t flashProbeDebug;
++
++// Re-run the SPI probe from the CLI and refresh flashProbeDebug. Returns true
++// if a chip was identified, in which case geometry and partitions are updated.
++bool flashReprobe(void);
++#endif // USE_FLASH_DEBUG_PROBE && USE_FLASH_SPI
+diff --git a/src/main/drivers/flash_m25p16.c b/src/main/drivers/flash_m25p16.c
+index 5f1b29233..910dc29f5 100644
+--- a/src/main/drivers/flash_m25p16.c
++++ b/src/main/drivers/flash_m25p16.c
+@@ -127,6 +127,11 @@ struct {
+     // Cypress S25FL128L
+     // Datasheet: https://www.cypress.com/file/316171/download
+     { 0x016018, 133, 50, 256, 256 },
++    // GigaDevice GD25Q16E
++    // Datasheet: https://www.gigadevice.com/datasheet/gd25q16e/
++    // 32 sectors x 256 pages x 256 B = 2 MB. Same geometry as the Winbond
++    // W25Q16 entry above. 104 MHz fast read, 50 MHz for the standard 0x03 read.
++    { 0xC84015, 104, 50, 32, 256 },
+     // BergMicro W25Q32
+     // Datasheet: https://www.winbond.com/resource-files/w25q32jv%20dtr%20revf%2002242017.pdf?__locale=zh_TW
+     { 0xE04016, 133, 50, 1024, 16 },

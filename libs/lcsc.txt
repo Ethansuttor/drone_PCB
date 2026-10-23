@@ -36,3 +36,20 @@ C9864
 # Buck passives
 C354622
 C77102
+
+# v2 OSD: AT7456E analog OSD (TSSOP-28 EP), MAX7456 pin compatible. Bottom side, hand soldered
+C82351
+
+# v2 barometer: SPA06-003 primary, DPS368XTSA1 alternate, same footprint LGA-8_2.0x2.5mm_P0.65mm_Baro
+C30589048
+C3232508
+
+# v2 additions (2026-10-21)
+# 5 V buck TPS5450DDAR (symbol uses the v1 ESOP-8 TL-EP footprint, same DDA package)
+C114425
+# Buck inductor 15 uH, Isat 9 A, 8.5 x 8 mm (PROD Tech PSPMAA0805-150M-ANP)
+C2962886
+# 5 A Schottky SS54, SMA (ORing D3 and catch D9)
+C22452
+# SMD magnetic buzzer MLT-8530 (passive, 3.6 V rated)
+C94599

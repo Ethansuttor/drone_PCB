@@ -26,7 +26,7 @@
 	(fp_line (start -6.00 0.00) (end 0.00 -6.00) (layer F.CrtYd) (width 0.05))
 	(fp_line (start 0.00 -6.00) (end 0.00 -6.00) (layer F.CrtYd) (width 0.05))
 	(fp_line (start 0.00 -6.00) (end 6.00 0.00) (layer F.CrtYd) (width 0.05))
-	(model "D:/Drone/drone_PCB/libs/drone_lib.3dshapes/BUZ-TH_D12.0-H9.5-P7.60.wrl"
+	(model "${KIPRJMOD}/../libs/drone_lib.3dshapes/BUZ-TH_D12.0-H9.5-P7.60.wrl"
 		(offset (xyz 0.000 0.000 0.000))
 		(scale (xyz 1 1 1))
 		(rotate (xyz 0 0 270))

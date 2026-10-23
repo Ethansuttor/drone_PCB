@@ -1,0 +1,67 @@
+# diff all
+
+# version
+# Betaflight / STM32F405 (S405) 4.5.5 Aug 18 2026 / 21:10:09 (norevision) MSP API: 1.46
+# config rev: 0e3e013
+
+# start the command batch
+batch start
+
+# reset configuration to default settings
+defaults nosave
+
+board_name ETHANF405
+manufacturer_id CUST
+mcu_id 001f00263435470e39333639
+signature 
+
+# resources
+resource FLASH_CS 1 C04
+resource GYRO_CS 1 NONE
+
+# feature
+feature SERVO_TILT
+feature RANGEFINDER
+feature TELEMETRY
+feature LED_STRIP
+feature DISPLAY
+feature OSD
+feature CHANNEL_FORWARDING
+feature TRANSPONDER
+
+# aux
+aux 0 0 0 1775 2100 0 0
+aux 1 40 1 1300 1700 0 0
+
+# master
+set acc_calibration = 38,18,40,1
+set motor_output_reordering = 2,3,0,1,4,5,6,7
+set vbat_scale = 111
+set pinio_config = 129,1,1,1
+set pinio_box = 40,41,42,43
+set flash_spi_bus = 1
+
+profile 0
+
+profile 1
+
+profile 2
+
+profile 3
+
+# restore original profile selection
+profile 0
+
+rateprofile 0
+
+rateprofile 1
+
+rateprofile 2
+
+rateprofile 3
+
+# restore original rateprofile selection
+rateprofile 0
+
+# save configuration
+save

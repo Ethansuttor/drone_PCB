@@ -1,0 +1,21 @@
+# Editor and KiCad leftovers
+*.lck
+*.bak*
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.kicad_prl.bak*
+
+# Zip backups (KiCad and firmware snapshots)
+*-backups/
+*.zip.bak
+
+# Large regenerable 3D export for the v2 board
+Drone_PCB_FC_V2/Drone_PCB_FC.wrl
+
+# Vendor datasheets (kept local, not in the repo)
+datasheets/
+
+# Local AI notes, project instructions and CubeMX project (kept on disk, not in the repo)
+.ai/
+CLAUDE.md
+STM32 Program/

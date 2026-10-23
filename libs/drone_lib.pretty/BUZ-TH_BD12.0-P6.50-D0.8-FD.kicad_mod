@@ -20,7 +20,7 @@
 	(fp_circle (center 0.00 0.00) (end 1.30 0.00) (layer F.SilkS) (width 0.25))
 	(fp_line (start -6.00 0.00) (end 6.00 0.00) (layer F.CrtYd) (width 0.05))
 	(fp_line (start 6.00 0.00) (end -6.00 0.00) (layer F.CrtYd) (width 0.05))
-	(model "D:/Drone/drone_PCB/libs/drone_lib.3dshapes/BUZ-TH_BD12.0-H6.0-P6.5.wrl"
+	(model "${KIPRJMOD}/../libs/drone_lib.3dshapes/BUZ-TH_BD12.0-H6.0-P6.5.wrl"
 		(offset (xyz 0.000 0.000 0.000))
 		(scale (xyz 1 1 1))
 		(rotate (xyz 0 0 270))

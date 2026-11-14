@@ -1,0 +1,19 @@
+Comment,Designator,Footprint,Per board,Order qty,LCSC Part #,Unit USD,Line USD,Notes
+SMD magnetic buzzer MLT-8530,BZ1,SMD 8.5x8.5mm,1,5,C94599,0.2037,1.02,Bottom side hand soldered. New for v2 (v1 used THT and never fitted it).
+100nF 50V X7R 0805,"C14,C15,C20,C24,C25,C26,C27,C29,C30,C31,C32,C33,C36",0805,13,100,C49678,0.0206,2.06,About 10 left from v1 but v2 needs 13 per board. Same part as v1.
+SS54 5A 40V Schottky,"D2,D3",SMA,2,10,C22452,0.0450,0.45,Catch diode and ORing diode. v1 used SS34 (3A).
+1N4148W,D8,SOD-123,1,50,C2099,0.0109,0.55,Buzzer flyback. MOQ 50.
+600R@100MHz ferrite bead 2A,FB1,0805,1,10,C21519,0.0296,0.30,VDDA bead. Never ordered for v1 (it was bridged).
+BLM21PG221SN1D ferrite bead,FB3,0805,1,20,C85840,0.0317,0.63,BMI270 VDD bead. Fit 0 ohm instead if you prefer (plan says bead footprint).
+JST SH 8 pin SM08B-SRSS-TB,J1,SMD P1.00 right angle,1,5,C160407,0.3268,1.63,H501A camera header.
+JST GH 6 pin SM06B-GHS-TB,J4,SMD P1.25 right angle,1,5,C133065,0.3599,1.80,GPS and compass header.
+JST SH 4 pin SM04B-SRSS-TB,J5,SMD P1.00 right angle,1,5,C160404,0.2168,1.08,Optical flow header.
+JST GH 4 pin SM04B-GHS-TB,J6,SMD P1.25 right angle,1,5,C189895,0.9460,4.73,Spare I2C header.
+15uH PSPMAA0805-150M-ANP,L3,SMD 8.5x8mm,1,5,C2962886,0.2710,1.36,Buck inductor Isat 9A. v1 6x6 part (Isat 2A) does not fit this footprint.
+AO3400A N MOSFET,Q2,SOT-23,1,5,C20917,0.0897,0.45,Buzzer driver.
+2.2k 1% 0805,"R12,R16",0805,2,100,C17520,0.0050,0.50,I2C pullups. No 2.2k in the v1 order. MOQ 100.
+10R 0805,R26,0805,1,100,C17415,0.0040,0.40,Buzzer series resistor. 1206 upgrade still an open decision. MOQ 100.
+W25Q128JVSIQ 16MB flash,U3,SOIC-8 208mil,1,2,C97521,1.6525,3.31,"Schematic and PCB both C97521 as of 2026-10-31 (C113767 had 0 stock on 2026-10-29). 3554 in stock and from $1.65 on 2026-10-31."
+SPA06-003 barometer,U8,LGA-8 2x2.5,1,2,C30589048,0.7485,1.50,Second one is a spare (LGA rework needs hot air).
+"OPTIONAL 330uF 6.3V POSCAP 6TPE330MAP",C16,EIA-7343 (2917),1,2,C79112,0.5327,1.07,"Schematic and PCB both C79112 as of 2026-10-31 (25 mOhm, 18150 in stock; price is LCSC's lowest listed, qty 2 price not checked). Previous line was 10TPB330M C347551 (10V, 35 mOhm, 3.10 each), also valid. Skip if you use one of the four 220uF 10TPB220M (C242173) left from v1."
+OPTIONAL 2.54mm 1x40 header strip,"J3,J7",THT 2.54,1,5,C2337,0.1607,0.80,Only if you have no header strip at home. One strip covers J3 and J7.

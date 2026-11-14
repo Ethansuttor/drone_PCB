@@ -1,0 +1,19 @@
+Manufacturer Part Number,Manufacturer,Quantity,Customer Reference,Description,Per Board,Replaces LCSC,Notes
+CMT-8530S-SMT-TR,Same Sky (CUI Devices),2,BZ1,Magnetic buzzer 3.6 V 8.5x8.5 mm SMD,1,C94599 (MLT-8530),SUBSTITUTE: check pad pattern against BUZ-SMD_4P-L8.5-W8.5 footprint before ordering
+CC0805KRX7R9BB104,Yageo,25,"C14-C15,C20,C24-C27,C29-C33,C36",100 nF 50 V X7R 0805,13,C49678,Same MPN as schematic field
+CDBA540-HF,Comchip Technology,5,"D2,D3",Schottky 40 V 5 A SMA (DO-214AC),2,C22452 (SS54),Equivalent SMA 5 A 40 V; catch and ORing diodes
+1N4148W-7-F,Diodes Incorporated,5,D8,Switching diode 100 V SOD-123,1,C2099,Buzzer flyback
+BLM21PG601SN1D,Murata,3,FB1,Ferrite bead 600 ohm @ 100 MHz 0805,1,C21519,VDDA bead; load is a few mA so current rating is not critical
+BLM21PG221SN1D,Murata,3,FB3,Ferrite bead 220 ohm @ 100 MHz 0805,1,C85840,BMI270 VDD bead; same MPN as LCSC part
+SM08B-SRSS-TB(LF)(SN),JST,3,J1,JST SH 8 pin 1.00 mm right angle SMD,1,C160407,H501A camera header
+SM06B-GHS-TB(LF)(SN),JST,3,J4,JST GH 6 pin 1.25 mm right angle SMD,1,C133065,GPS and compass header
+SM04B-SRSS-TB(LF)(SN),JST,3,J5,JST SH 4 pin 1.00 mm right angle SMD,1,C160404,Optical flow header
+SM04B-GHS-TB(LF)(SN),JST,3,J6,JST GH 4 pin 1.25 mm right angle SMD,1,C189895,Spare I2C header
+ETQ-P5M150YFK,Panasonic,2,L3,15 uH shielded inductor 8.5x8.0x5.4 mm (PCC-M0854M),1,C2962886 (PSPMAA0805-150M-ANP),SUBSTITUTE: Isat 7.2 A vs 9 A on the LCSC part; fits PCC-M0854M footprint. Do NOT take ETQ-P5M150YFC (10.7x10 mm, wont fit)
+AO3400A,Alpha & Omega Semiconductor,5,Q2,N MOSFET 30 V 5.7 A SOT-23,1,C20917,Buzzer driver; same MPN
+RC0805FR-072K2L,Yageo,10,"R12,R16",2.2 k 1% 0805,2,C17520,I2C pullups
+RC0805FR-0710RL,Yageo,10,R26,10 ohm 1% 0805,1,C17415,Buzzer series resistor
+W25Q128JVSIQ,Winbond,2,U3,128 Mbit SPI flash SOIC-8 208 mil,1,C97521,Blackbox flash; same MPN
+SPA06-003,Goertek,2,U8,Barometer LGA-8 2.0x2.5 mm,1,C30589048,Same MPN; second is a spare (no hot air for rework)
+6TPE330MAP,Panasonic,1,C16,OPTIONAL 330 uF 6.3 V POSCAP 7343,1,C79112,Optional: skip if fitting a 10TPB220M left from v1
+PRPC040SAAN-RC,Sullins,1,"J3,J7",OPTIONAL 1x40 2.54 mm header strip,1,C2337,Optional: only if no header strip at home

@@ -1,0 +1,1 @@
+Old layout attempts for the **v1** board, July 2026. Not the v2 (IRIS) board, which is `../Drone_PCB_FC_V2/`. Kept for history; do not read for current work. Files renamed 2026-11-09 (were `Drone_PCB_FC_v1` / `Drone_PCB_FC_v2`).

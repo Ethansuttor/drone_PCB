@@ -2195,7 +2195,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "1a142f2b-2c2c-44b5-88bf-db24a7899093")
 		(property "Reference" "R10"
 			(at 219.71 95.2499 0)
@@ -2252,6 +2251,28 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C17414"
+			(at 217.17 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F1002T5E"
+			(at 217.17 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "3bcffd47-9e6c-423a-bfbb-34a696f3a43e")
 		)
@@ -2290,7 +2311,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7uF"
+		(property "Value" "10uF"
 			(at 78.74 81.2799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2324,6 +2345,28 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
+			(at 74.93 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C5156756"
+			(at 74.93 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "FS32X106K101EGG"
 			(at 74.93 80.01 0)
 			(hide yes)
 			(show_name no)
@@ -2372,7 +2415,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7uF"
+		(property "Value" "10uF"
 			(at 93.98 81.2799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2406,6 +2449,28 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
+			(at 90.17 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C5156756"
+			(at 90.17 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "FS32X106K101EGG"
 			(at 90.17 80.01 0)
 			(hide yes)
 			(show_name no)
@@ -2654,6 +2719,28 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C79112"
+			(at 190.5 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "6TPE330MAP"
+			(at 190.5 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "40f7c8c1-b217-49cf-8482-40268a285ded")
 		)
@@ -2724,6 +2811,28 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
+			(at 161.29 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C83170"
+			(at 161.29 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CC0805KRX7R9BB103"
 			(at 161.29 82.55 0)
 			(hide yes)
 			(show_name no)
@@ -2882,6 +2991,28 @@
 			)
 		)
 		(property "Description" "Inductor with iron core"
+			(at 184.15 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C2962886"
+			(at 184.15 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "PSPMAA0805-150M-ANP"
 			(at 184.15 82.55 0)
 			(hide yes)
 			(show_name no)
@@ -3457,6 +3588,28 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C83170"
+			(at 205.74 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CC0805KRX7R9BB103"
+			(at 205.74 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "8fcfb278-a0e3-43be-a286-a355729209fe")
 		)
@@ -3618,6 +3771,28 @@
 				)
 			)
 		)
+		(property "LCSC Part" "C83170"
+			(at 104.14 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CC0805KRX7R9BB103"
+			(at 104.14 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "3219317c-d418-4d30-a29f-c4d0aaf226c6")
 		)
@@ -3690,6 +3865,28 @@
 			)
 		)
 		(property "Description" "Resistor"
+			(at 217.17 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C17609"
+			(at 217.17 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F3241T5E"
 			(at 217.17 118.11 0)
 			(hide yes)
 			(show_name no)

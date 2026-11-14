@@ -1,0 +1,20 @@
+Comment,Designator,Footprint,Per board,Order qty,LCSC Part #,Unit USD,Line USD,LCSC stock 2026-11-02,Notes
+SMD magnetic buzzer MLT-8530,BZ1,SMD 8.5x8.5mm,1,5,C94599,0.2038,1.02,140000,"Bottom side, hand soldered after reflow. Skip with Q2, D8, R26 if you drop the buzzer."
+100nF 50V X7R 0805,"C14,C15,C20,C24,C25,C26,C27,C29,C30,C31,C32,C33,C36",0805,13,100,C49678,0.0207,2.07,15277460,"About 10 left from v1, v2 needs 13."
+SS54 5A 40V Schottky,"D2,D3",SMA,2,10,C22452,0.0450,0.45,1524660,"Catch and ORing diodes. v1 SS34 is 3 A, not reused."
+1N4148W,D8,SOD-123,1,50,C2099,0.0109,0.55,1020450,Buzzer flyback. MOQ 50.
+600R@100MHz ferrite bead 2A,FB1,0805,1,10,C21519,0.0296,0.30,104930,VDDA bead. Never bought for v1 (bridged).
+BLM21PG221SN1D ferrite bead,FB3,0805,1,20,C85840,0.0281,0.56,353320,BMI270 VDD bead. A 0 ohm or solder bridge also works.
+JST SH 8 pin SM08B-SRSS-TB,J1,SMD 1.00 mm right angle,1,5,C160407,0.3268,1.63,180500,H501A camera header.
+JST GH 6 pin SM06B-GHS-TB,J4,SMD 1.25 mm right angle,1,5,C133065,0.3599,1.80,23485,GPS and compass header.
+JST SH 4 pin SM04B-SRSS-TB,J5,SMD 1.00 mm right angle,1,5,C160404,0.2168,1.08,52145,Optical flow header.
+JST GH 4 pin SM04B-GHS-TB,J6,SMD 1.25 mm right angle,1,5,C189895,0.6597,3.30,20785,Spare I2C header.
+15uH PSPMAA0805-150M-ANP,L3,SMD 8.5x8 mm,1,5,C2962886,0.2710,1.35,14255,"Buck inductor, Isat 9 A. v1 6x6 part does not fit this footprint."
+AO3400A N MOSFET,Q2,SOT-23,1,5,C20917,0.0899,0.45,418645,Buzzer driver.
+2.2k 1% 0805,"R12,R16",0805,2,100,C17520,0.0050,0.50,2419400,I2C pullups. MOQ 100.
+10R 0805,R26,0805,1,100,C17415,0.0040,0.40,3503400,Buzzer series resistor. MOQ 100.
+W25Q128JVSIQ 16MB flash,U3,SOIC-8 208 mil,1,2,C97521,2.4852,4.97,8129,Blackbox flash. Matches schematic and PCB.
+SPA06-003 barometer,U8,LGA-8 2x2.5,1,2,C30589048,0.7485,1.50,68639,Second one is a spare (LGA rework needs hot air).
+OPTIONAL 330uF 6.3V POSCAP 6TPE330MAP,C16,EIA-7343 (2917),1,2,C79112,0.9512,1.90,17920,"Matches schematic and PCB. Skip if you fit one of the four 10TPB220M (C242173) left from v1, also valid for the TPS5450 loop."
+OPTIONAL 2.54mm 1x40 header strip,"J3,J7",THT 2.54 mm,1,5,C2337,0.1607,0.80,61050,Only if you have no header strip at home. One strip covers J3 and J7.
+TOTAL required,,,,,,,21.93,,Plus 2.70 if both optional lines are bought. LCSC shipping not included.

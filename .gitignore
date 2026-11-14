@@ -18,4 +18,5 @@ datasheets/
 # Local AI notes, project instructions and CubeMX project (kept on disk, not in the repo)
 .ai/
 CLAUDE.md
+.claude/
 STM32 Program/

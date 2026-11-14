@@ -1,0 +1,1 @@
+Parser files copied unchanged from Betaflight Blackbox Explorer (blackbox-log-viewer) version 2026.6.0, `src/`, downloaded 2026-10-20 to `D:\Drone\output\flight-20261020\viewer\`. License: GPL v3 (LICENSE). To update: replace these five files from a newer release and rerun a known log to compare.

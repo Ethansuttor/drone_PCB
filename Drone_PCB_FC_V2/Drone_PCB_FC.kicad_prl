@@ -1,25 +1,25 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 2,
     "active_layer_preset": "",
-    "auto_track_width": true,
+    "auto_track_width": false,
     "hidden_netclasses": [],
     "hidden_nets": [
-      "+3V3",
-      "+5V",
       "GND",
+      "+3V3",
       "+5V_Buck",
+      "+5V",
       "NRST"
     ],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
     "opacity": {
-      "images": 0.6,
+      "images": 0.5,
       "pads": 1.0,
-      "shapes": 1.0,
+      "shapes": 0.5,
       "tracks": 1.0,
       "vias": 1.0,
-      "zones": 0.6
+      "zones": 1.0
     },
     "prototype_zone_fills": false,
     "selection_filter": {
@@ -57,8 +57,8 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "ffffffff_ffffffff_ffffd575_ffd7ffdd",
-    "zone_display_mode": 1
+    "visible_layers": "ffffffff_ffffffff_ffffd575_d75fdfff",
+    "zone_display_mode": 0
   },
   "git": {
     "integration_disabled": false,
@@ -100,18 +100,18 @@
       11
     ],
     "col_widths": [
-      109,
-      125,
-      181,
-      145,
-      156,
-      185,
-      159,
-      154,
-      73,
-      75,
-      99,
-      99
+      218,
+      250,
+      363,
+      290,
+      313,
+      370,
+      318,
+      308,
+      146,
+      150,
+      198,
+      198
     ],
     "custom_group_rules": [],
     "expanded_rows": [],
